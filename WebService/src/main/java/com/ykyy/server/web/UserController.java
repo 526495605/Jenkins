@@ -4,6 +4,7 @@ import com.ykyy.server.bean.JsonResult;
 import com.ykyy.server.bean.UserBean;
 import com.ykyy.server.service.UserService;
 import com.ykyy.server.util.JsonReslutUtil;
+import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,13 +13,15 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value="/user")
+@Api(value = "/user", description = "用户")
 public class UserController
 {
     @Autowired
     private UserService userService;
 
     @RequestMapping(value="/add",method = RequestMethod.PUT)
-    public ResponseEntity<JsonResult> addUser(@RequestBody UserBean userBean)
+    @ApiOperation(value="添加用户", notes="添加用户")
+    public ResponseEntity<JsonResult> addUser(@RequestBody @ApiParam(name = "body") UserBean userBean)
     {
         JsonResult r = new JsonResult();
         try
@@ -38,6 +41,7 @@ public class UserController
 
     }
 
+    @ApiOperation(value="通过ID查询用户", notes="通过ID查询用户")
     @RequestMapping(value = "/getbyid/{id}", method = RequestMethod.GET)
     public ResponseEntity<JsonResult> getUserById(@PathVariable(value = "id") int id)
     {
@@ -57,6 +61,7 @@ public class UserController
         return ResponseEntity.ok(r);
     }
 
+    @ApiOperation(value="删除用户", notes="删除用户")
     @RequestMapping(value="/deleteuser", method = RequestMethod.POST)
     public ResponseEntity<JsonResult> deleteUser(@RequestBody UserBean userBean)
     {
@@ -76,7 +81,8 @@ public class UserController
         return ResponseEntity.ok(r);
     }
 
-    @RequestMapping("/updataUser")
+    @ApiOperation(value="更新用户", notes="更新用户")
+    @RequestMapping(value="/updataUser", method = RequestMethod.POST)
     public ResponseEntity<JsonResult> upDataUser(@RequestBody UserBean userBean)
     {
         JsonResult r = new JsonResult();
@@ -95,6 +101,7 @@ public class UserController
         return ResponseEntity.ok(r);
     }
 
+    @ApiOperation(value="查询所有用户", notes="查询所有用户")
     @RequestMapping(value ="/getall", method = RequestMethod.GET)
     public ResponseEntity<JsonResult> getAll()
     {
@@ -114,8 +121,12 @@ public class UserController
         return ResponseEntity.ok(r);
     }
 
+    @ApiOperation(value="分页查找用户", notes="分页查找用户")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "begin", value = "页数", required = true, dataType = "Integer", paramType = "path"),
+    })
     @RequestMapping(value="/getuserpage/{begin}", method = RequestMethod.GET)
-    public ResponseEntity<JsonResult> getUserPage(@PathVariable int begin)
+    public ResponseEntity<JsonResult> getUserPage(@PathVariable(value = "begin") int begin)
     {
         JsonResult r = new JsonResult();
         try
