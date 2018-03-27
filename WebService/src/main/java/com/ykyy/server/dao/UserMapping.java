@@ -16,8 +16,24 @@ public interface UserMapping
     @DeleteProvider(type=UserProvider.class,method="delete")
     public int delete(UserBean userBean);
 
+    @Select("select users_id, users_name, users_phone, users_wx, users_date from users")
+    @Results({
+            @Result(property = "id", column ="users_id"),
+            @Result(property = "name", column ="users_name"),
+            @Result(property = "phone", column ="users_phone"),
+            @Result(property = "wx", column ="users_wx"),
+            @Result(property = "date", column ="users_date")
+    })
     public List<UserBean> getAll();
 
+    @Select("select users_id, users_name, users_phone, users_wx, users_date from users limit #{begin},10")
+    @Results({
+            @Result(property = "id", column ="users_id"),
+            @Result(property = "name", column ="users_name"),
+            @Result(property = "phone", column ="users_phone"),
+            @Result(property = "wx", column ="users_wx"),
+            @Result(property = "date", column ="users_date")
+    })
     public List<UserBean> getUserPage(int begin);
 
     @Select("select users_id, users_name, users_phone, users_wx, users_date from users where users_id=#{id}")
@@ -31,5 +47,6 @@ public interface UserMapping
     public UserBean get(int id);
 
 
+    @UpdateProvider(type = UserProvider.class, method = "updateUser")
     public int update(UserBean userBean);
 }

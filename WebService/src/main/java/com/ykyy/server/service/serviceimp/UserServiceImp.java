@@ -6,6 +6,8 @@ import com.ykyy.server.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class UserServiceImp implements UserService
 {
@@ -36,4 +38,24 @@ public class UserServiceImp implements UserService
     {
         return userMapping.delete(userBean);
     }
+
+    @Override
+    public int updateUser(UserBean userBean)
+    {
+        return userMapping.update(userBean);
+    }
+
+    @Override
+    public List<UserBean> getALl()
+    {
+        return userMapping.getAll();
+    }
+
+    @Override
+    public List<UserBean> getUserPage(int begin)
+    {
+        return userMapping.getUserPage(begin);
+    }
+
+
 }
