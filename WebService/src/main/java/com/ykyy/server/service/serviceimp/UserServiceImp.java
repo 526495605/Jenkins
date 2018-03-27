@@ -27,6 +27,13 @@ public class UserServiceImp implements UserService
     @Override
     public UserBean getUser(int id)
     {
+
         return userMapping.get(id);
+    }
+
+    @Override
+    public int deleteUser(UserBean userBean)
+    {
+        return userMapping.delete(userBean);
     }
 }

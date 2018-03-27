@@ -7,4 +7,6 @@ public interface UserService
     public int addUser(UserBean userBean);
 
     public UserBean getUser(int id);
+
+    public int deleteUser(UserBean userBean);
 }

@@ -11,9 +11,8 @@ import java.sql.Date;
 @MapperScan("com.ykyy.server.dao")
 public class DemoApplication {
 
-	public static void main(String[] args) {
-
-		System.out.println(new UserBean(1, "mc", "123132", new Date(54465456), "123", "1231"));
+	public static void main(String[] args)
+	{
 		SpringApplication.run(DemoApplication.class, args);
 	}
 }
