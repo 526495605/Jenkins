@@ -6,7 +6,11 @@ import com.ykyy.server.service.UserService;
 import com.ykyy.server.util.JsonReslutUtil;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,6 +18,8 @@ import java.util.List;
 @RestController
 @RequestMapping(value="/user")
 @Api(value = "/user", description = "用户")
+@CacheConfig(cacheNames="userCache")
+@Transactional(propagation = Propagation.REQUIRED,readOnly=false,rollbackFor = Exception.class)
 public class UserController
 {
     @Autowired
@@ -41,14 +47,17 @@ public class UserController
 
     }
 
+
+    @Cacheable(key = "#p0")
     @ApiOperation(value="通过ID查询用户", notes="通过ID查询用户")
     @RequestMapping(value = "/getbyid/{id}", method = RequestMethod.GET)
-    public ResponseEntity<JsonResult> getUserById(@PathVariable(value = "id") int id)
+    public UserBean getUserById(@PathVariable(value = "id") int id)
     {
         JsonResult r = new JsonResult();
+        UserBean user =null;
         try
         {
-            UserBean user = userService.getUser(id);
+            user = userService.getUser(id);
             //System.out.println(id);
             r.setResult(user);
             r.setStatus("ok");
@@ -58,7 +67,7 @@ public class UserController
             r.setStatus("error");
             e.printStackTrace();
         }
-        return ResponseEntity.ok(r);
+        return user;
     }
 
     @ApiOperation(value="删除用户", notes="删除用户")
