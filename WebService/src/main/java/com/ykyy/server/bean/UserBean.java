@@ -1,15 +1,18 @@
 package com.ykyy.server.bean;
 
+import java.io.Serializable;
 import java.sql.Date;
 
-public class UserBean
+public class UserBean implements Serializable
 {
+    private static final long serialVersionUID = -1L;
     private Integer id;
     private String name;
     private String phone;
     private Date date;
     private String wx;
     private String password;
+
 
     public UserBean()
     {

@@ -1,7 +1,10 @@
 package com.ykyy.server.bean;
 
-public class JsonResult
+import java.io.Serializable;
+
+public class JsonResult implements Serializable
 {
+    private static final long serialVersionUID = -2L;
     private String status = null;
 
     private Object result = null;

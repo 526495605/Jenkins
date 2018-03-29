@@ -103,8 +103,9 @@ public class UserController
 
     @ApiOperation(value="查询所有用户", notes="查询所有用户")
     @RequestMapping(value ="/getall", method = RequestMethod.GET)
-    public ResponseEntity<JsonResult> getAll()
+    public ResponseEntity<JsonResult> getAll() throws Exception
     {
+        //throw new Exception();
         JsonResult r = new JsonResult();
         try
         {
@@ -119,6 +120,7 @@ public class UserController
             e.printStackTrace();
         }
         return ResponseEntity.ok(r);
+
     }
 
     @ApiOperation(value="分页查找用户", notes="分页查找用户")

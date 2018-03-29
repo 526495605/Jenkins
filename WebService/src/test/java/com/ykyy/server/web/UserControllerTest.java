@@ -1,39 +1,25 @@
 package com.ykyy.server.web;
 
-import org.hamcrest.Matchers;
-import org.junit.Before;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.RequestBuilder;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
 @WebAppConfiguration
 public class UserControllerTest
 {
-    private MockMvc mvc;
-
-    @Before
-    public void setMvc()
-    {
-        mvc= MockMvcBuilders.standaloneSetup(new UserController()).build();
-    }
-
+    @Autowired
+    private StringRedisTemplate stringRedisTemplate;
     @Test
-    public void runtest() throws Exception
-    {
-        RequestBuilder requestBuilder = null;
-
-        requestBuilder = get("/user/getall");
-        mvc.perform(requestBuilder).andExpect(status().isOk()).andExpect(content().string(Matchers.equalTo("success")));
+    public void test() throws Exception {
+        // 保存字符串
+        stringRedisTemplate.opsForValue().set("aaa", "111");
+        Assert.assertEquals("111", stringRedisTemplate.opsForValue().get("aaa"));
     }
 }
