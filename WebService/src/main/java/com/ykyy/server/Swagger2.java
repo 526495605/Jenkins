@@ -25,7 +25,7 @@ public class Swagger2 {
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
                 .title("Swagger2构建RESTful APIs")
-                .contact("yyky")
+                .contact("cma")
                 .version("1.0")
                 .build();
     }

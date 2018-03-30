@@ -1,13 +1,12 @@
 package com.ykyy.server;
 
-import com.ykyy.server.bean.UserBean;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-
-import java.sql.Date;
+import org.springframework.boot.web.servlet.ServletComponentScan;
 
 @SpringBootApplication
+@ServletComponentScan
 @MapperScan("com.ykyy.server.dao")
 public class DemoApplication {
 
