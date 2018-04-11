@@ -3,10 +3,9 @@ package com.ykyy.server.filter;
 import org.jboss.logging.Logger;
 
 import javax.servlet.*;
-import javax.servlet.annotation.WebFilter;
 import java.io.IOException;
 
-@WebFilter(filterName="ServletFilter",urlPatterns = "/*")
+//@WebFilter(filterName="ServletFilter",urlPatterns = "/*")
 public class AllServletFilter implements Filter
 {
 

@@ -56,4 +56,29 @@ public class UserProvider
         System.out.println("MySQL++++++ " + sql);
         return sql;
     }
+
+    public String login(UserBean userBean)
+    {
+        String sql = new SQL()
+        {
+            {
+                SELECT("COUNT(*)");
+                FROM("users");
+                if(userBean.getName()!=null)
+                {
+                    WHERE("users_name = #{name} and users_password=#{password}");
+                }
+                else if(userBean.getPhone()!=null)
+                {
+                    WHERE("users_phone = #{phone} and users_password=#{password}");
+                }
+                else
+                {
+                    WHERE("1=-1");
+                }
+            }
+        }.toString();
+        System.out.println(sql);
+        return sql;
+    }
 }

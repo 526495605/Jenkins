@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="EruekaClient" />
+        <module name="EruekaZuul" />
+        <module name="EurekaFeign" />
+        <module name="EurekaRibbonClient" />
+        <module name="EurekaServer" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="EruekaClient" target="1.8" />
+      <module name="EruekaZuul" target="1.8" />
+      <module name="EurekaDemo" target="1.8" />
+      <module name="EurekaFeign" target="1.8" />
+      <module name="EurekaRibbonClient" target="1.8" />
+      <module name="EurekaServer" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+</project>

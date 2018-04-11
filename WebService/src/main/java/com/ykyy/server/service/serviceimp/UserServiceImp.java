@@ -28,12 +28,25 @@ public class UserServiceImp implements UserService
     }
 
 
+
+    /**
+    * @Author:owen
+    * @Description: 添加用户
+    * @Date:Create in 15:30 2018/4/3
+    * @Modified By:
+    */
     @Override
     public int addUser(UserBean userBean)
     {
         return userMapping.add(userBean);
     }
 
+    /**
+    * @Author:owen
+    * @Description: 通过id查找用户
+    * @Date:Create in 15:30 2018/4/3
+    * @Modified By:
+    */
     @Override
     public UserBean getUser(int id)
     {
@@ -63,29 +76,57 @@ public class UserServiceImp implements UserService
         return userBean;
     }
 
+    /**
+    * @Author:owen
+    * @Description: 删除用户
+    * @Date:Create in 15:31 2018/4/3
+    * @Modified By:
+    */
     @Override
     public int deleteUser(UserBean userBean)
     {
         return userMapping.delete(userBean);
     }
 
+    /**
+    * @Author:owen
+    * @Description:更新用户
+    * @Date:Create in 15:31 2018/4/3
+    * @Modified By:
+    */
     @Override
     public int updateUser(UserBean userBean)
     {
         return userMapping.update(userBean);
     }
 
+    /**
+    * @Author:owen
+    * @Description: 获取全部的用户
+    * @Date:Create in 15:31 2018/4/3
+    * @Modified By:
+    */
     @Override
     public List<UserBean> getALl()
     {
         return userMapping.getAll();
     }
 
+    /**
+    * @Author:owen
+    * @Description:分页查找
+    * @Date:Create in 15:33 2018/4/3
+    * @Modified By:
+    */
     @Override
     public List<UserBean> getUserPage(int begin)
     {
         return userMapping.getUserPage(begin);
     }
 
-
+    @Override
+    public int login(UserBean userBean)
+    {
+        return userMapping.login(userBean);
+    }
 }

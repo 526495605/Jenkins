@@ -17,4 +17,6 @@ public interface UserService
     public List<UserBean> getALl();
 
     public List<UserBean> getUserPage(int begin);
+
+    public int login(UserBean userBean);
 }

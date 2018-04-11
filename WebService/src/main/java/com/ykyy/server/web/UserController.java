@@ -153,8 +153,26 @@ public class UserController
             e.printStackTrace();
         }
         return ResponseEntity.ok(r);
+    }
 
-
+    @ApiOperation(value="登录", notes="登录")
+    @RequestMapping(value="/login", method = RequestMethod.POST)
+    public ResponseEntity<JsonResult> login(@RequestBody UserBean userBean)
+    {
+        JsonResult r = new JsonResult();
+        try
+        {
+            int num = userService.login(userBean);
+            r.setResult(num);
+            r.setStatus("success");
+        }
+        catch (Exception e)
+        {
+            r.setResult(e.getClass().getName() + ":" + e.getMessage());
+            r.setStatus("error");
+            e.printStackTrace();
+        }
+        return ResponseEntity.ok(r);
     }
 
 }
