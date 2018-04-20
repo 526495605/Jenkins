@@ -35,22 +35,22 @@ public class MyFilter extends ZuulFilter
         RequestContext requestContext = RequestContext.getCurrentContext();
         HttpServletRequest httpServletRequest = requestContext.getRequest();
         Object accessToken = httpServletRequest.getParameter("token");
-        if(accessToken==null)
-        {
-            log.warn("taken is null");
-            requestContext.setSendZuulResponse(false);
-            requestContext.setResponseStatusCode(401);
-            try
-            {
-                requestContext.getResponse().getWriter().write("toke is null");
-            }
-            catch (Exception e)
-            {
-                e.printStackTrace();
-                return null;
-            }
-
-        }
+//        if(accessToken==null)
+//        {
+//            log.warn("taken is null");
+//            requestContext.setSendZuulResponse(false);
+//            requestContext.setResponseStatusCode(401);
+//            try
+//            {
+//                requestContext.getResponse().getWriter().write("toke is null");
+//            }
+//            catch (Exception e)
+//            {
+//                e.printStackTrace();
+//                return null;
+//            }
+//
+//        }
         log.info("ok");
         return null;
     }
