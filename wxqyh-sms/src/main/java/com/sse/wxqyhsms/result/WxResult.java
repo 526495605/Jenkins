@@ -1,5 +1,7 @@
 package com.sse.wxqyhsms.result;
 
+import com.sse.wxqyhsms.exception.AesException;
+import com.sse.wxqyhsms.util.SHA1;
 import com.sse.wxqyhsms.util.WxUtil;
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,38 +19,23 @@ public class WxResult
     public String getResult(@RequestParam(value = "msg_signature") String msg_signature,
                             @RequestParam(value = "timestamp") String timestamp,
                             @RequestParam(value = "nonce") String nonce,
-                            @RequestParam(value = "schostr") String schostr) throws UnsupportedEncodingException
+                            @RequestParam(value = "schostr") String schostr) throws Exception
     {
         String _msg_signature = URLDecoder.decode(msg_signature, WxUtil.ENCODE);
         String _timestamp = URLDecoder.decode(timestamp, WxUtil.ENCODE);
         String _nonce = URLDecoder.decode(nonce, WxUtil.ENCODE);
         String _schostr = URLDecoder.decode(schostr, WxUtil.ENCODE);
 
-        String[] array = new String[]{_timestamp, WxUtil.TOKEN, _nonce};
+        String sign = SHA1.getSHA1(WxUtil.TOKEN, _timestamp, _nonce, _schostr);
 
-        StringBuilder sbuilder = new StringBuilder();
-        for (String str : array) {
-            sbuilder.append(str);
-        }
-
-        String token = sbuilder.toString();
-        String mytoken = Base64.encodeBase64(token.getBytes()).toString();
-
-        //校验签名
-        if (mytoken != null && mytoken != "" && mytoken.equals(_msg_signature))
+        if(!_msg_signature.equals(sign))
         {
-            System.out.println("签名校验通过。");
-            //String msg = Base64.decodeBase64(_schostr);
-
-
-
-            return _schostr; //如果检验成功输出echostr，微信服务器接收到此输出，才会确认检验完成。
+            throw new AesException(AesException.ValidateSignatureError);
         }
-        else
-        {
-            System.out.println("签名校验失败。");
-            return null;
-        }
+        String result = SHA1.decrypt(_schostr);
+        return result;
+
+
     }
 
     @RequestMapping(value = "/hello")
