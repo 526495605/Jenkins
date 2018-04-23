@@ -64,7 +64,7 @@ public class UserServiceImp implements UserService
         if (userBean == null)
         {
             userBean = userMapping.get(id);
-            redisTemplate.opsForValue().set(userBean.getId(), userBean, 5, TimeUnit.SECONDS);
+            redisTemplate.opsForValue().set(userBean.getUsers_id(), userBean, 5, TimeUnit.SECONDS);
             //redisTemplate.expire(userBean.getId(), 10, TimeUnit.SECONDS);
 
             System.out.println("null++++++++++++++++++++++++++++++++++++++");

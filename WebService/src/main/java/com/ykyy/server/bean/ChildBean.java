@@ -2,8 +2,8 @@ package com.ykyy.server.bean;
 
 public class ChildBean
 {
-    private String child_id;
-    private String users_id;
+    private int child_id;
+    private int users_id;
     private String child_name;
     private String child_sex;
     private String child_height;
@@ -24,23 +24,34 @@ public class ChildBean
 
     private String product_id;
 
+    private int child_status;
 
-    public String getChild_id()
+    public int getChild_status()
+    {
+        return child_status;
+    }
+
+    public void setChild_status(int child_status)
+    {
+        this.child_status = child_status;
+    }
+
+    public int getChild_id()
     {
         return child_id;
     }
 
-    public void setChild_id(String child_id)
+    public void setChild_id(int child_id)
     {
         this.child_id = child_id;
     }
 
-    public String getUsers_id()
+    public int getUsers_id()
     {
         return users_id;
     }
 
-    public void setUsers_id(String users_id)
+    public void setUsers_id(int users_id)
     {
         this.users_id = users_id;
     }

@@ -7,97 +7,91 @@ public class UserBean implements Serializable
 {
     private static final long serialVersionUID = -1L;
 
-    private Integer id;
-    private String name;
-    private String phone;
-    private Date date;
-    private String wx;
-    private String password;
+    private Integer users_id;
+    private String users_name;
+    private String users_phone;
+    private Date users_date;
+    private String users_wx;
+    private String users_password;
+
+    private int users_status;
+
+    public int getUsers_status()
+    {
+        return users_status;
+    }
+
+    public void setUsers_status(int users_status)
+    {
+        this.users_status = users_status;
+    }
 
     public UserBean()
     {
     }
 
-    public UserBean(Integer id, String name, String phone, Date date, String wx, String password)
+    public static long getSerialVersionUID()
     {
-        this.id = id;
-        this.name = name;
-        this.phone = phone;
-        this.date = date;
-        this.wx = wx;
-        this.password = password;
+        return serialVersionUID;
     }
 
-    public Integer getId()
+    public Integer getUsers_id()
     {
-        return id;
+        return users_id;
     }
 
-    public void setId(Integer id)
+    public void setUsers_id(Integer users_id)
     {
-        this.id = id;
+        this.users_id = users_id;
     }
 
-    public String getName()
+    public String getUsers_name()
     {
-        return name;
+        return users_name;
     }
 
-    public void setName(String name)
+    public void setUsers_name(String users_name)
     {
-        this.name = name;
+        this.users_name = users_name;
     }
 
-    public String getPhone()
+    public String getUsers_phone()
     {
-        return phone;
+        return users_phone;
     }
 
-    public void setPhone(String phone)
+    public void setUsers_phone(String users_phone)
     {
-        this.phone = phone;
+        this.users_phone = users_phone;
     }
 
-    public Date getDate()
+    public Date getUsers_date()
     {
-        return date;
+        return users_date;
     }
 
-    public void setDate(Date date)
+    public void setUsers_date(Date users_date)
     {
-        this.date = date;
+        this.users_date = users_date;
     }
 
-    public String getWx()
+    public String getUsers_wx()
     {
-        return wx;
+        return users_wx;
     }
 
-    public void setWx(String wx)
+    public void setUsers_wx(String users_wx)
     {
-        this.wx = wx;
+        this.users_wx = users_wx;
     }
 
-    public String getPassword()
+    public String getUsers_password()
     {
-        return password;
+        return users_password;
     }
 
-    public void setPassword(String password)
+    public void setUsers_password(String users_password)
     {
-        this.password = password;
-    }
-
-    @Override
-    public String toString()
-    {
-        return "UserBean{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", phone='" + phone + '\'' +
-                ", date=" + date +
-                ", wx='" + wx + '\'' +
-                ", password='" + password + '\'' +
-                '}';
+        this.users_password = users_password;
     }
 }

@@ -6,45 +6,24 @@ import org.apache.ibatis.jdbc.SQL;
 
 public class UserProvider
 {
-
-    public String delete(UserBean userBean)
-    {
-        String sql =   new SQL(){{
-            DELETE_FROM("users");
-            if(userBean==null || (userBean.getId()==null  && userBean.getWx()==null))
-            {
-                WHERE("1=-1");
-            }
-            if(null != userBean.getId()){
-                WHERE("users_id= #{id}");
-            }
-            if(null != userBean.getWx())
-            {
-                WHERE("users_wx = #{wx}");
-            }
-        }}.toString();
-        System.out.println("MySQL++++++ " + sql);
-        return sql;
-    }
-
     public String updateUser(UserBean userBean)
     {
         String sql = new SQL(){
             {
                 UPDATE("users");
-                if (null != userBean.getWx())
+                if (null != userBean.getUsers_wx())
                 {
                     SET("users_wx=#{wx}");
                 }
-                if (null != userBean.getName())
+                if (null != userBean.getUsers_name())
                 {
                     SET("users_name=#{name}");
                 }
-                if (null != userBean.getPhone())
+                if (null != userBean.getUsers_phone())
                 {
                     SET("users_phone=#{phone}");
                 }
-                if (null != userBean.getId())
+                if (null != userBean.getUsers_id())
                 {
                     WHERE("users_id=#{id}");
                 }
@@ -64,11 +43,12 @@ public class UserProvider
             {
                 SELECT("COUNT(*)");
                 FROM("users");
-                if(userBean.getName()!=null)
+                WHERE("users_status =1 ");
+                if(userBean.getUsers_name()!=null)
                 {
                     WHERE("users_name = #{name} and users_password=#{password}");
                 }
-                else if(userBean.getPhone()!=null)
+                else if(userBean.getUsers_phone()!=null)
                 {
                     WHERE("users_phone = #{phone} and users_password=#{password}");
                 }

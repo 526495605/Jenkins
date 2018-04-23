@@ -5,7 +5,9 @@ import com.ykyy.server.bean.ProductBean;
 import com.ykyy.server.dao.ChildMapping;
 import com.ykyy.server.service.ChildService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class ChildServiceImp implements ChildService
 {
     @Autowired
