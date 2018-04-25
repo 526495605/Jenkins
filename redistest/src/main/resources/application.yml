@@ -1,0 +1,13 @@
+spring:
+  datasource:
+    name: db
+    url: jdbc:mysql://127.0.0.1:3306/mybaits?useUnicode=true&characterEncoding=utf-8&useSSL=false
+    username: root
+    password: root
+    driver-class-name: com.mysql.jdbc.Driver
+    cachePrepStmts: true
+
+  redis:
+    database: 0
+    host: 127.0.0.1
+    port: 6379
