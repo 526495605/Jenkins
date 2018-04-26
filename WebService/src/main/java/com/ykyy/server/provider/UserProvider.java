@@ -6,6 +6,7 @@ import org.apache.ibatis.jdbc.SQL;
 
 public class UserProvider
 {
+    /*
     public String updateUser(UserBean userBean)
     {
         String sql = new SQL(){
@@ -61,4 +62,5 @@ public class UserProvider
         System.out.println(sql);
         return sql;
     }
+    */
 }
