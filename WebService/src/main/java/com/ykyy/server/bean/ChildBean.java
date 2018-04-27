@@ -2,8 +2,8 @@ package com.ykyy.server.bean;
 
 public class ChildBean
 {
-    private int child_id;
-    private int users_id;
+    private Integer child_id;
+    private Integer users_id;
     private String child_name;
     private String child_sex;
     private String child_height;
@@ -21,37 +21,49 @@ public class ChildBean
     private String child_mother_name;
     private String child_father_tel;
     private String child_mother_tel;
+    private String child_mother_idcard;
+    private String child_father_idcard;
+
+    public String getChild_mother_idcard()
+    {
+        return child_mother_idcard;
+    }
+
+    public void setChild_mother_idcard(String child_mother_idcard)
+    {
+        this.child_mother_idcard = child_mother_idcard;
+    }
+
+    public String getChild_father_idcard()
+    {
+        return child_father_idcard;
+    }
+
+    public void setChild_father_idcard(String child_father_idcard)
+    {
+        this.child_father_idcard = child_father_idcard;
+    }
 
     private String product_id;
 
-    private int child_status;
+    private Integer child_status;
 
-    public int getChild_status()
-    {
-        return child_status;
-    }
-
-    public void setChild_status(int child_status)
-    {
-        this.child_status = child_status;
-    }
-
-    public int getChild_id()
+    public Integer getChild_id()
     {
         return child_id;
     }
 
-    public void setChild_id(int child_id)
+    public void setChild_id(Integer child_id)
     {
         this.child_id = child_id;
     }
 
-    public int getUsers_id()
+    public Integer getUsers_id()
     {
         return users_id;
     }
 
-    public void setUsers_id(int users_id)
+    public void setUsers_id(Integer users_id)
     {
         this.users_id = users_id;
     }
@@ -224,5 +236,15 @@ public class ChildBean
     public void setProduct_id(String product_id)
     {
         this.product_id = product_id;
+    }
+
+    public Integer getChild_status()
+    {
+        return child_status;
+    }
+
+    public void setChild_status(Integer child_status)
+    {
+        this.child_status = child_status;
     }
 }

@@ -1,5 +1,6 @@
 package com.ykyy.server.service.imp;
 
+import com.ykyy.server.bean.UserBean;
 import com.ykyy.server.dao.UserMapping;
 import com.ykyy.server.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +21,30 @@ public class UserServiceImp implements UserService
     @Override
     public Integer login(String phone, String password)
     {
-
         return userMapping.login(phone, password);
     }
+
+    @Override
+    public UserBean getUserById(int users_id)
+    {
+        return userMapping.getUserById(users_id);
+    }
+
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

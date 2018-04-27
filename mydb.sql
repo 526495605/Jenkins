@@ -1,16 +1,16 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : MySQL
-Source Server Version : 50721
+Source Server         : mysql
+Source Server Version : 50540
 Source Host           : localhost:3306
 Source Database       : mydb
 
 Target Server Type    : MYSQL
-Target Server Version : 50721
+Target Server Version : 50540
 File Encoding         : 65001
 
-Date: 2018-04-27 17:48:05
+Date: 2018-04-27 23:44:42
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -142,7 +142,7 @@ DROP TABLE IF EXISTS `users`;
 CREATE TABLE `users` (
   `users_id` int(11) NOT NULL AUTO_INCREMENT,
   `users_name` varchar(20) DEFAULT NULL,
-  `users_phone` varchar(15) DEFAULT NULL,
+  `users_phone` varchar(15) NOT NULL,
   `users_password` varchar(50) DEFAULT NULL,
   `users_image` varchar(255) DEFAULT NULL,
   `users_wx` varchar(20) DEFAULT NULL,
@@ -151,13 +151,13 @@ CREATE TABLE `users` (
   `users_share` int(11) NOT NULL,
   `users_parent` int(11) DEFAULT NULL,
   `users_status` int(11) NOT NULL DEFAULT '1',
-  PRIMARY KEY (`users_id`)
+  PRIMARY KEY (`users_id`,`users_phone`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of users
 -- ----------------------------
-INSERT INTO `users` VALUES ('1', 'owen', '189797979', '123', null, null, null, '0', '0', '0', '1');
+INSERT INTO `users` VALUES ('1', 'owen', '189797979', '111', '1', '2', '2018-04-02 22:10:41', '0', '0', '0', '1');
 
 -- ----------------------------
 -- Table structure for users_category
