@@ -1,6 +1,6 @@
 package com.ykyy.server.util;
 
-import com.techfantasy.agecare.exception.Exceptions;
+import com.ykyy.server.exception.Exceptions;
 
 import java.security.MessageDigest;
 

@@ -1,15 +1,11 @@
 package com.ykyy.server.dao;
 
-import com.ykyy.server.bean.UserBean;
-import com.ykyy.server.provider.UserProvider;
-import org.apache.ibatis.annotations.*;
-import org.springframework.stereotype.Service;
-
-import java.util.List;
+import org.apache.ibatis.annotations.Select;
 
 public interface UserMapping
 {
 
+    /*
     @Insert("Insert into users(users_name, users_password, users_phone, users_wx, users_date) value (#{users_name} ,#{users_password}, #{users_phone}, #{users_wx}, now())")
     int add(UserBean userBean);
 
@@ -30,4 +26,10 @@ public interface UserMapping
 
     @UpdateProvider(type = UserProvider.class, method = "updateUser")
     int update(UserBean userBean);
+    */
+
+    @Select("SELECT users_id FROM users WHERE users_phone = #{0} and users_password = #{1}")
+    Integer login(String phone, String password);
+
+
 }

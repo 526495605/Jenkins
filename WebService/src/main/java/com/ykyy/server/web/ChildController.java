@@ -2,10 +2,8 @@ package com.ykyy.server.web;
 
 import com.ykyy.server.bean.ChildBean;
 import com.ykyy.server.bean.JsonResult;
-import com.ykyy.server.service.ChildService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiParam;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Propagation;
@@ -17,9 +15,9 @@ import org.springframework.web.bind.annotation.*;
 @Api(value = "/child", description = "儿童")
 @CacheConfig(cacheNames="Cache")
 @Transactional(propagation = Propagation.REQUIRED,readOnly=false,rollbackFor = Exception.class)
-public class ChildController
+public class ChildController extends BaseController
 {
-    @Autowired
+  /*  @Autowired
     ChildService childService;
 
     /**

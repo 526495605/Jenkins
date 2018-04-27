@@ -1,31 +1,48 @@
 package com.ykyy.server.web;
 
-import com.ykyy.server.bean.JsonResult;
-import com.ykyy.server.bean.UserBean;
-import com.ykyy.server.service.UserService;
-import com.ykyy.server.util.JsonReslutUtil;
-import io.swagger.annotations.*;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheConfig;
-import org.springframework.cache.annotation.Cacheable;
-import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
+import com.alibaba.fastjson.JSONObject;
+import com.ykyy.server.bean.Token;
+import com.ykyy.server.exception.Exceptions;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiParam;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(value="/user")
 @Api(value = "/user", description = "用户")
-@CacheConfig(cacheNames="userCache")
-@Transactional(propagation = Propagation.REQUIRED,readOnly=false,rollbackFor = Exception.class)
-public class UserController
+public class UserController extends BaseController
 {
-    @Autowired
-    private UserService userService;
 
-    @RequestMapping(value="/add",method = RequestMethod.PUT)
+    @PostMapping(value = "/login")
+    public String login(
+            @RequestBody @ApiParam(name = "body",defaultValue = "{\"phone\":\"189797979\",\"password\":\"123\"}", value = "{\"phone\":\"189797979\",\"password\":\"123\"}") String body)
+    {
+        JSONObject jsonObject = JSONObject.parseObject(body);
+        String phone = jsonObject.getString("phone");
+        String password = jsonObject.getString("password");
+
+        if("".equals(phone) || "".equals(password))
+        {
+            throw Exceptions.get404Exception("用户名不能为空");
+        }
+        System.out.println(phone + " + "+ password);
+        Integer id = userService.login(phone, password);
+        if(id == null)
+        {
+            throw Exceptions.get404Exception("用户名或者密码错误");
+        }
+        Token token = null;
+        token = saveToken(id);
+        return JSONObject.toJSON(token).toString();
+
+    }
+
+
+
+   /* @RequestMapping(value="/add",method = RequestMethod.PUT)
     @ApiOperation(value="添加用户", notes="添加用户")
     public ResponseEntity<JsonResult> addUser(@RequestBody @ApiParam(name = "body") UserBean userBean)
     {
@@ -174,5 +191,6 @@ public class UserController
         }
         return ResponseEntity.ok(r);
     }
+    */
 
 }
