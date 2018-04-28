@@ -15,6 +15,30 @@ public class Token
     //安全码，每次请求中的sign参数需要使用安全码计算，有效期7天
     private String securityKey;
 
+    private Integer users_id;
+
+    private String users_phone;
+
+    public String getUsers_phone()
+    {
+        return users_phone;
+    }
+
+    public void setUsers_phone(String users_phone)
+    {
+        this.users_phone = users_phone;
+    }
+
+    public Integer getUsers_id()
+    {
+        return users_id;
+    }
+
+    public void setUsers_id(Integer users_id)
+    {
+        this.users_id = users_id;
+    }
+
     public Token(String accessKey, String securityKey)
     {
         this.accessKey = accessKey;

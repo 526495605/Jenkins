@@ -5,6 +5,8 @@ import com.ykyy.server.exception.Exceptions;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.jdbc.SQL;
 
+import java.util.Date;
+
 @Slf4j
 public class UserProvider
 {
@@ -70,6 +72,7 @@ public class UserProvider
         String sql = new SQL(){
             {
                 UPDATE("users");
+
                 if(null != userBean.getUsers_name())
                 {
                     SET("users_name=#{users_name}");
@@ -92,7 +95,29 @@ public class UserProvider
                 }
             }
         }.toString();
-        log.warn("UserProvider=  "+sql );
+        log.info("UserProvider=  "+sql );
+        return sql;
+    }
+
+    public String addUser(UserBean userBean)
+    {
+        Long time = new Date().getTime();
+        System.out.println(time);
+        String sql = new SQL()
+        {
+            {
+                INSERT_INTO("users");
+                VALUES("users_phone", "#{users_phone}");
+                VALUES("users_password", "#{users_password}");
+                VALUES("users_date",time.toString());
+                if(null != userBean.getUsers_parent())
+                {
+                    VALUES("users_parent", "#{users_parent}");
+                }
+            }
+        }.toString();
+
+        log.info("UserProvider=  "+sql );
         return sql;
     }
 }

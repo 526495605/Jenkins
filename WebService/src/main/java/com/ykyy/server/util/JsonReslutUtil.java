@@ -1,7 +1,5 @@
 package com.ykyy.server.util;
 
-import com.ykyy.server.bean.JsonResult;
-
 public class JsonReslutUtil
 {
     public static void getJsonResult(int result, JsonResult r)

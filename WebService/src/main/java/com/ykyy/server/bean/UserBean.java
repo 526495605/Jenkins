@@ -1,7 +1,6 @@
 package com.ykyy.server.bean;
 
 import java.io.Serializable;
-import java.sql.Date;
 
 public class UserBean implements Serializable
 {
@@ -13,9 +12,8 @@ public class UserBean implements Serializable
     private String users_password;
     private String users_image;
     private String users_wx;
-    private Date users_data;
+    private Long users_data;
     private Integer users_point;
-    private Integer users_share;
     private Integer users_parent;
     private Integer users_status;
 
@@ -84,12 +82,12 @@ public class UserBean implements Serializable
         this.users_wx = users_wx;
     }
 
-    public Date getUsers_data()
+    public Long getUsers_data()
     {
         return users_data;
     }
 
-    public void setUsers_data(Date users_data)
+    public void setUsers_data(Long users_data)
     {
         this.users_data = users_data;
     }
@@ -104,15 +102,6 @@ public class UserBean implements Serializable
         this.users_point = users_point;
     }
 
-    public Integer getUsers_share()
-    {
-        return users_share;
-    }
-
-    public void setUsers_share(Integer users_share)
-    {
-        this.users_share = users_share;
-    }
 
     public Integer getUsers_parent()
     {

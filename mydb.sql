@@ -1,16 +1,16 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : mysql
-Source Server Version : 50540
+Source Server         : MySQL
+Source Server Version : 50721
 Source Host           : localhost:3306
 Source Database       : mydb
 
 Target Server Type    : MYSQL
-Target Server Version : 50540
+Target Server Version : 50721
 File Encoding         : 65001
 
-Date: 2018-04-27 23:44:42
+Date: 2018-04-28 16:18:21
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -24,11 +24,14 @@ CREATE TABLE `category` (
   `category_name` varchar(20) DEFAULT NULL,
   `category_status` int(11) DEFAULT '1',
   PRIMARY KEY (`category_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of category
 -- ----------------------------
+INSERT INTO `category` VALUES ('1', '数学', '1');
+INSERT INTO `category` VALUES ('2', '语文', '1');
+INSERT INTO `category` VALUES ('3', '英语', '1');
 
 -- ----------------------------
 -- Table structure for child
@@ -142,22 +145,22 @@ DROP TABLE IF EXISTS `users`;
 CREATE TABLE `users` (
   `users_id` int(11) NOT NULL AUTO_INCREMENT,
   `users_name` varchar(20) DEFAULT NULL,
-  `users_phone` varchar(15) NOT NULL,
+  `users_phone` varchar(50) NOT NULL,
   `users_password` varchar(50) DEFAULT NULL,
   `users_image` varchar(255) DEFAULT NULL,
   `users_wx` varchar(20) DEFAULT NULL,
-  `users_date` datetime DEFAULT NULL,
-  `users_point` int(11) NOT NULL,
-  `users_share` int(11) NOT NULL,
-  `users_parent` int(11) DEFAULT NULL,
+  `users_date` bigint(20) DEFAULT NULL,
+  `users_point` int(11) NOT NULL DEFAULT '0',
+  `users_parent` int(11) NOT NULL DEFAULT '0',
   `users_status` int(11) NOT NULL DEFAULT '1',
-  PRIMARY KEY (`users_id`,`users_phone`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+  PRIMARY KEY (`users_id`),
+  UNIQUE KEY `users_phone` (`users_phone`)
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of users
 -- ----------------------------
-INSERT INTO `users` VALUES ('1', 'owen', '189797979', '111', '1', '2', '2018-04-02 22:10:41', '0', '0', '0', '1');
+INSERT INTO `users` VALUES ('1', 'owen', '18918501675', '1234', '1', '2', '20180402221041', '0', '1', '1');
 
 -- ----------------------------
 -- Table structure for users_category

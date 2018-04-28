@@ -1,7 +1,6 @@
 package com.ykyy.server.web;
 
 import com.ykyy.server.bean.ChildBean;
-import com.ykyy.server.bean.JsonResult;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiParam;
 import org.springframework.cache.annotation.CacheConfig;
