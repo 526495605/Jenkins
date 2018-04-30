@@ -1,5 +1,6 @@
 package com.ykyy.server.service.imp;
 
+import com.ykyy.server.bean.ChildBean;
 import com.ykyy.server.bean.UserBean;
 import com.ykyy.server.dao.UserMapping;
 import com.ykyy.server.service.UserService;
@@ -11,6 +12,8 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @CacheConfig(cacheNames = "Users")
 @Service
@@ -29,7 +32,6 @@ public class UserServiceImp implements UserService
         return userMapping.getUserById(id);
     }
 
-    @Cacheable(key = "#p0")
     @Override
     public UserBean getUserById(int users_id)
     {
@@ -49,7 +51,6 @@ public class UserServiceImp implements UserService
         return result;
     }
 
-    @CachePut(key = "#p0.users_id")
     @Override
     public UserBean updateUser(UserBean userBean)
     {
@@ -63,25 +64,28 @@ public class UserServiceImp implements UserService
         return userMapping.changePass(users_id, oldpass, newpass);
     }
 
-    @CachePut(key = "#p0")
     @Override
     public Integer changePoint(int users_id, int newPoint)
     {
         return userMapping.changePoint(users_id, newPoint);
     }
 
-    @CachePut(key = "#p0")
     @Override
     public Integer updatePhone(int users_id, String phone)
     {
         return userMapping.updatePhone(users_id, phone);
     }
 
-    @CacheEvict(key = "#p0")
     @Override
     public Integer deleteUser(int users_id, String users_phone)
     {
         return userMapping.deleteUser(users_id, users_phone);
+    }
+
+    @Override
+    public List<ChildBean> getChildById(int user_id)
+    {
+        return userMapping.getChildById(user_id);
     }
 
 

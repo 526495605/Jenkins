@@ -1,6 +1,7 @@
 package com.ykyy.server.web;
 
 import com.ykyy.server.bean.Token;
+import com.ykyy.server.service.ChildService;
 import com.ykyy.server.service.RedisService;
 import com.ykyy.server.service.UserService;
 import com.ykyy.server.util.Util;
@@ -13,8 +14,8 @@ public class BaseController
     @Autowired
     UserService userService;
 
-//    @Autowired
-//    ChildService childService;
+    @Autowired
+    ChildService childService;
 
     @Autowired
     RedisService redisService;

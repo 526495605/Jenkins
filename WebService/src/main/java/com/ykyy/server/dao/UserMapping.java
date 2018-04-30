@@ -1,8 +1,11 @@
 package com.ykyy.server.dao;
 
+import com.ykyy.server.bean.ChildBean;
 import com.ykyy.server.bean.UserBean;
 import com.ykyy.server.provider.UserProvider;
 import org.apache.ibatis.annotations.*;
+
+import java.util.List;
 
 public interface UserMapping
 {
@@ -33,6 +36,9 @@ public interface UserMapping
 
     @Delete("UPDATE users SET users_status=0, users_phone = #{1}, users_parent=0 WHERE users_id=#{0} and users_status=1")
     Integer deleteUser(int users_id, String phone);
+
+    @Select("SELECT users_id, child_id, child_name, child_age, child_sex, child_height, child_nation, child_tel, child_grade, child_idcard, child_idcardnum, child_health, child_healthinfo, child_father_name, child_father_tel, child_father_idcard, child_mother_name, child_mother_tel, child_mother_idcard, child_school FROM child WHERE users_id=#{0} and child_status=1")
+    List<ChildBean> getChildById(int users_id);
 }
 
 

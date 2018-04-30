@@ -1,6 +1,8 @@
 package com.ykyy.server.web;
 
 import com.alibaba.fastjson.JSONObject;
+import com.ykyy.server.bean.ChildBean;
+import com.ykyy.server.bean.ResultBean;
 import com.ykyy.server.bean.Token;
 import com.ykyy.server.bean.UserBean;
 import com.ykyy.server.exception.Exceptions;
@@ -12,6 +14,7 @@ import io.swagger.annotations.ApiParam;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
+import java.util.List;
 
 @RestController
 @RequestMapping(value="/user")
@@ -20,6 +23,7 @@ public class UserController extends BaseController
 {
 
     @PostMapping(value = "/login")
+    @ApiOperation(value="登录", notes="登录")
     public String login(
             @RequestBody @ApiParam(name = "body",defaultValue = "{\"phone\":\"189797979\",\"password\":\"123\"}", value = "{\"phone\":\"189797979\",\"password\":\"123\"}") String body)
     {
@@ -63,7 +67,8 @@ public class UserController extends BaseController
         {
             throw Exceptions.get409Exception("号码已经注册");
         }
-        return "{\"status\":true,\"msg\":\"号码可以使用\"}";
+        //"{\"status\":true,\"msg\":\"号码可以使用\"}"
+        return JSONObject.toJSON(new ResultBean(200, "号码可以使用")).toString();
 
     }
 
@@ -103,7 +108,7 @@ public class UserController extends BaseController
             throw Exceptions.get400Exception("删除失败");
         }
 
-        return "{\"code\": \"200\",\"message\": \"删除成功\"}";
+        return JSONObject.toJSON(new ResultBean(200, "删除成功")).toString();
     }
 
     @ApiOperation(value="更新用户", notes="更新用户")
@@ -132,9 +137,17 @@ public class UserController extends BaseController
         if(result==null || result==0)
             throw Exceptions.get409Exception("修改密码失败");
 
-        return "{\"code\": \"200\",\"message\": \"修改密码成功\"}";
+        return JSONObject.toJSON(new ResultBean(200, "修改密码成功")).toString();
     }
 
+    @ApiOperation(value = "查询用户所有孩子", notes = "查询用户所有孩子")
+    @GetMapping(value = "/getchildbyuserid/{id}")
+    public String getChildById(@PathVariable(value = "id") int users_id)
+    {
+        List<ChildBean> list = userService.getChildById(users_id);
+
+        return JSONObject.toJSON(list).toString();
+    }
 
     /*
 
@@ -183,25 +196,6 @@ public class UserController extends BaseController
         return ResponseEntity.ok(r);
     }
 
-    @ApiOperation(value="登录", notes="登录")
-    @RequestMapping(value="/login", method = RequestMethod.POST)
-    public ResponseEntity<JsonResult> login(@RequestBody UserBean userBean)
-    {
-        JsonResult r = new JsonResult();
-        try
-        {
-            int num = userService.login(userBean);
-            r.setResult(num);
-            r.setStatus("success");
-        }
-        catch (Exception e)
-        {
-            r.setResult(e.getClass().getName() + ":" + e.getMessage());
-            r.setStatus("error");
-            e.printStackTrace();
-        }
-        return ResponseEntity.ok(r);
-    }
     */
 
 }

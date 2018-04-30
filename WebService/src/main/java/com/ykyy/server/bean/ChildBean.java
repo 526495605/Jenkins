@@ -6,8 +6,8 @@ public class ChildBean
     private Integer users_id;
     private String child_name;
     private String child_sex;
-    private String child_height;
-    private String child_age;
+    private Integer child_height;
+    private Integer child_age;
     private String child_nation;
     private String child_tel;
     private String child_school;
@@ -88,22 +88,22 @@ public class ChildBean
         this.child_sex = child_sex;
     }
 
-    public String getChild_height()
+    public Integer getChild_height()
     {
         return child_height;
     }
 
-    public void setChild_height(String child_height)
+    public void setChild_height(Integer child_height)
     {
         this.child_height = child_height;
     }
 
-    public String getChild_age()
+    public Integer getChild_age()
     {
         return child_age;
     }
 
-    public void setChild_age(String child_age)
+    public void setChild_age(Integer child_age)
     {
         this.child_age = child_age;
     }

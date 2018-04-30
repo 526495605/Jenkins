@@ -1,6 +1,9 @@
 package com.ykyy.server.service;
 
+import com.ykyy.server.bean.ChildBean;
 import com.ykyy.server.bean.UserBean;
+
+import java.util.List;
 
 public interface UserService
 {
@@ -79,5 +82,13 @@ public interface UserService
     * @Modified By:
     */
     Integer deleteUser(int users_id, String users_phone);
+
+    /**
+     * @Author:owen
+     * @Description:查询用户所有孩子
+     * @Date:Create in 13:31 2018/4/28
+     * @Modified By:
+     */
+    List<ChildBean> getChildById(int user_id);
 }
 
