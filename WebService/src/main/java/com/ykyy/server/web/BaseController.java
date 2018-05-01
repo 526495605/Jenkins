@@ -1,9 +1,7 @@
 package com.ykyy.server.web;
 
 import com.ykyy.server.bean.Token;
-import com.ykyy.server.service.ChildService;
-import com.ykyy.server.service.RedisService;
-import com.ykyy.server.service.UserService;
+import com.ykyy.server.service.*;
 import com.ykyy.server.util.Util;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -16,6 +14,12 @@ public class BaseController
 
     @Autowired
     ChildService childService;
+
+    @Autowired
+    ProductService productService;
+
+    @Autowired
+    CategoryService categoryService;
 
     @Autowired
     RedisService redisService;
