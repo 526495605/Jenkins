@@ -1,5 +1,6 @@
 package com.ykyy.server.service;
 
+import com.ykyy.server.bean.CategoryBean;
 import com.ykyy.server.bean.ChildBean;
 import com.ykyy.server.bean.UserBean;
 
@@ -90,5 +91,14 @@ public interface UserService
      * @Modified By:
      */
     List<ChildBean> getChildById(int user_id);
+
+
+    List<CategoryBean> getUsersCategory(Integer users_id);
+
+    Integer insertUsersCategory(Integer users_id, Integer[] category_id);
+
+    Integer deleteUsersCategoryaAll(Integer users_id);
+
+    Integer deleteUsersCategoryById(Integer id);
 }
 

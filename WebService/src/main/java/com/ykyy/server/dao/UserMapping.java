@@ -1,5 +1,6 @@
 package com.ykyy.server.dao;
 
+import com.ykyy.server.bean.CategoryBean;
 import com.ykyy.server.bean.ChildBean;
 import com.ykyy.server.bean.UserBean;
 import com.ykyy.server.provider.UserProvider;
@@ -39,6 +40,21 @@ public interface UserMapping
 
     @Select("SELECT users_id, child_id, child_name, child_age, child_sex, child_height, child_nation, child_tel, child_grade, child_idcard, child_idcardnum, child_health, child_healthinfo, child_father_name, child_father_tel, child_father_idcard, child_mother_name, child_mother_tel, child_mother_idcard, child_school FROM child WHERE users_id=#{0} and child_status=1")
     List<ChildBean> getChildById(int users_id);
+
+
+    //------------------------------------------------------------------------------------
+
+    @Select("SELECT category.category_id, category_name FROM category, users_category WHERE category.category_id=users_category.category_id and users_id = #{0}")
+    List<CategoryBean> getUsersCategory(Integer users_id);
+
+    @Insert("INSERT users_category (users_id, category_id) VALUE (#{0}, #{1})")
+    Integer insertUsersCategory(Integer users_id, Integer category_id);
+
+    @Delete("Delete FROM users_category WHERE users_id=#{0}")
+    Integer deleteUsersCategoryaAll(Integer users_id);
+
+    @Delete("Delete FROM users_category WHERE users_category_id=#{0}")
+    Integer deleteUsersCategoryById(Integer id);
 }
 
 

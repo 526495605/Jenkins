@@ -1,11 +1,9 @@
 package com.ykyy.server.web;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.ykyy.server.bean.CategoryBean;
 import com.ykyy.server.bean.ResultBean;
 import com.ykyy.server.exception.Exceptions;
-import com.ykyy.server.service.CategoryService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -20,7 +18,7 @@ public class CategoryController extends BaseController
 {
     @PostMapping("/addcategory")
     @ApiOperation(value = "添加分类", notes = "添加分类")
-    public String addCategory(@RequestBody @ApiParam(name = "分类",defaultValue = "{\"category_name\": \"123\"}") CategoryBean categoryBean)
+    public String addCategory(@RequestBody @ApiParam(name = "分类",value = "{\"category_name\": \"123\"}") CategoryBean categoryBean)
     {
         Integer result = categoryService.addGateory(categoryBean);
         if(result ==null || result == 0)
@@ -38,7 +36,7 @@ public class CategoryController extends BaseController
         Integer result = categoryService.deleteGeteory(id);
         if(result ==null || result == 0)
         {
-            throw Exceptions.get403Exception("添加分类失败");
+            throw Exceptions.get403Exception("删除分类失败");
         }
 
         return JSONObject.toJSON(new ResultBean(200, "删除分类成功")).toString();
@@ -70,7 +68,7 @@ public class CategoryController extends BaseController
 
     @PostMapping("/updatecategory")
     @ApiOperation(value = "更新分类", notes = "更新分类")
-    public String updateCategory(@RequestBody @ApiParam(name = "category",defaultValue = "{\"category_id\": 7,\"category_name\": \"体育\"}") CategoryBean categoryBean)
+    public String updateCategory(@RequestBody @ApiParam(name = "category",value = "{\"category_id\": 7,\"category_name\": \"体育\"}") CategoryBean categoryBean)
     {
         if(categoryBean.getCategory_id()==null || categoryBean.getCategory_name()==null)
         {

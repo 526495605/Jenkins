@@ -1,10 +1,7 @@
 package com.ykyy.server.web;
 
 import com.alibaba.fastjson.JSONObject;
-import com.ykyy.server.bean.ChildBean;
-import com.ykyy.server.bean.ResultBean;
-import com.ykyy.server.bean.Token;
-import com.ykyy.server.bean.UserBean;
+import com.ykyy.server.bean.*;
 import com.ykyy.server.exception.Exceptions;
 import com.ykyy.server.util.MD5Util;
 import com.ykyy.server.util.Sms;
@@ -149,53 +146,58 @@ public class UserController extends BaseController
         return JSONObject.toJSON(list).toString();
     }
 
-    /*
+//    /------------------------------------------------------------------------------------------------------------------------------------
 
-    @ApiOperation(value="查询所有用户", notes="查询所有用户")
-    @RequestMapping(value ="/getall", method = RequestMethod.GET)
-    public ResponseEntity<JsonResult> getAll() throws Exception
+    @GetMapping("/getuserscategory/{id}")
+    @ApiOperation(value = "获取用户标签", notes = "获取用户标签")
+    public String getUsersCategory(@PathVariable(value = "id") Integer users_id)
     {
-        //throw new Exception();
-        JsonResult r = new JsonResult();
-        try
+        List<CategoryBean> result = userService.getUsersCategory(users_id);
+        if(result==null)
         {
-            List<UserBean> list = userService.getALl();
-            r.setResult(list);
-            r.setStatus("success");
+            throw Exceptions.get404Exception("查询标签失败");
         }
-        catch (Exception e)
-        {
-            r.setResult(e.getClass().getName() + ":" + e.getMessage());
-            r.setStatus("error");
-            e.printStackTrace();
-        }
-        return ResponseEntity.ok(r);
-
+        return JSONObject.toJSON(result).toString();
     }
 
-    @ApiOperation(value="分页查找用户", notes="分页查找用户")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "begin", value = "页数", required = true, dataType = "Integer", paramType = "path"),
-    })
-    @RequestMapping(value="/getuserpage/{begin}", method = RequestMethod.GET)
-    public ResponseEntity<JsonResult> getUserPage(@PathVariable(value = "begin") int begin)
+    @PostMapping("/insertuserscategory/{users_id}")
+    @ApiOperation(value = "添加用户标签", notes = "添加用户标签")
+    public String insertUsersCategory(@PathVariable(value = "users_id") Integer users_id, @RequestBody @ApiParam(name = "数组", value = "[ \"7\", \"8\", \"9\" ]") String body)
     {
-        JsonResult r = new JsonResult();
-        try
+        Integer[] category_id = JSONObject.parseObject(body, Integer[].class);
+        if(category_id==null)
         {
-            List<UserBean> list = userService.getUserPage(begin*10);
-            r.setResult(list);
-            r.setStatus("success");
+            throw Exceptions.get403Exception("输入错误");
         }
-        catch (Exception e)
+        Integer result = userService.insertUsersCategory(users_id, category_id);
+        if(result==null)
         {
-            r.setResult(e.getClass().getName() + ":" + e.getMessage());
-            r.setStatus("error");
-            e.printStackTrace();
+            throw Exceptions.get404Exception("添加标签失败");
         }
-        return ResponseEntity.ok(r);
+        return JSONObject.toJSON(new ResultBean(200, "添加用户标签成功")).toString();
     }
 
-    */
+    @GetMapping("/deleteuserscategoryaall/{users_id}")
+    @ApiOperation(value = "删除用户所有标签", notes = "删除用户所有标签")
+    public String deleteUsersCategoryaAll(@PathVariable(value = "users_id") Integer users_id)
+    {
+        Integer result = userService.deleteUsersCategoryaAll(users_id);
+        if(result==null)
+        {
+            throw Exceptions.get404Exception("删除标签失败");
+        }
+        return JSONObject.toJSON(new ResultBean(200, "删除用户标签成功")).toString();
+    }
 
+    @GetMapping("/deleteuserscategoryById/{id}")
+    @ApiOperation(value = "通过id删除用户标签", notes = "通过id删除用户标签")
+    public String deleteUsersCategoryById(@PathVariable(value = "id") Integer id)
+    {
+        Integer result = userService.deleteUsersCategoryById(id);
+        if(result==null || result ==0)
+        {
+            throw Exceptions.get404Exception("删除标签失败");
+        }
+        return JSONObject.toJSON(new ResultBean(200, "删除用户标签成功")).toString();
+    }
 }

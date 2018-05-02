@@ -1,6 +1,7 @@
 package com.ykyy.server.web;
 
 import com.alibaba.fastjson.JSONObject;
+import com.ykyy.server.bean.CategoryBean;
 import com.ykyy.server.bean.ChildBean;
 import com.ykyy.server.bean.ResultBean;
 import com.ykyy.server.exception.Exceptions;
@@ -8,6 +9,8 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/child")
@@ -68,18 +71,57 @@ public class ChildController extends BaseController
       ChildBean bean = childService.updateChild(childBean);
       return JSONObject.toJSON(bean).toString();
     }
+
+    @GetMapping("/getchildcategory/{id}")
+    @ApiOperation(value = "获取儿童标签", notes = "获取儿童标签")
+    public String getChildCategory(@PathVariable(value = "id") Integer child_id)
+    {
+        List<CategoryBean> result = childService.getChildCategory(child_id);
+        if(result==null)
+        {
+            throw Exceptions.get404Exception("查询标签失败");
+        }
+        return JSONObject.toJSON(result).toString();
+    }
+
+    @PostMapping("/insertchildcategory/{child_id}")
+    @ApiOperation(value = "添加儿童标签", notes = "添加儿童标签")
+    public String insertChildCategory(@PathVariable(value = "child_id") Integer child_id, @RequestBody @ApiParam(name = "数组", value = "[ \"7\", \"8\", \"9\" ]") String body)
+    {
+        Integer[] category_id = JSONObject.parseObject(body, Integer[].class);
+        if(category_id==null)
+        {
+            throw Exceptions.get403Exception("输入错误");
+        }
+        Integer result = childService.insertChildCategory(child_id, category_id);
+        if(result==null)
+        {
+            throw Exceptions.get404Exception("添加标签失败");
+        }
+        return JSONObject.toJSON(new ResultBean(200, "添加儿童标签成功")).toString();
+    }
+
+    @GetMapping("/deletechildcategoryaall/{child_id}")
+    @ApiOperation(value = "删除儿童所有标签", notes = "删除儿童所有标签")
+    public String deleteChildCategoryaAll(@PathVariable(value = "child_id") Integer child_id)
+    {
+        Integer result = childService.deleteChildCategoryaAll(child_id);
+        if(result==null)
+        {
+            throw Exceptions.get404Exception("删除标签失败");
+        }
+        return JSONObject.toJSON(new ResultBean(200, "删除儿童标签成功")).toString();
+    }
+
+    @GetMapping("/deletechildcategoryById/{id}")
+    @ApiOperation(value = "通过id删除儿童标签", notes = "通过id删除儿童标签")
+    public String deleteChildCategoryById(@PathVariable(value = "id") Integer id)
+    {
+        Integer result = childService.deleteChildCategoryById(id);
+        if(result==null || result ==0)
+        {
+            throw Exceptions.get404Exception("删除标签失败");
+        }
+        return JSONObject.toJSON(new ResultBean(200, "删除儿童标签成功")).toString();
+    }
 }
-
-/*
-*    @UpdateProvider(type = ChildProvider.class,method = "updateChild")
-    Integer updateChild(ChildBean childBean);
-
-    @Insert("INSERT child{users_id, child_name, child_age, child_sex, child_height, child_nation, child_tel, child_grade, child_idcard, child_idcardnum, child_health, child_healthinfo, child_father_name, child_father_tel, child_father_idcard, child_mother_name, child_mother_tel, child_mother_idcard} VALUE(#{users_id} #{child_name}, #{child_age}, #{child_sex}, #{child_height}, #{child_nation}, #{child_tel}, #{child_grade}, #{child_idcard}, #{child_idcardnum}, #{child_health}, #{child_healthinfo}, #{child_father_name}, #{child_father_tel}, #{child_father_idcard}, #{child_mother_name}, #{child_mother_tel}, #{child_mother_idcard})")
-    Integer addChild(ChildBean childBean);
-
-    @Delete("UPDATE child SET child_status=0 WHERE users_id=#{users_id} and child_id=#{child_id}")
-    Integer deletChild(Integer users_id, Integer child_id);
-
-    @Select("SELECT child_name, child_age, child_sex, child_height, child_nation, child_tel, child_grade, child_idcard, child_idcardnum, child_health, child_healthinfo, child_father_name, child_father_tel, child_father_idcard, child_mother_name, child_mother_tel, child_mother_idcard FROM child WHERE users_id=#{0} and child_id=#{1} and child_status=1")
-    ChildBean getChildById(Integer users_id, Integer child_id);
-    */

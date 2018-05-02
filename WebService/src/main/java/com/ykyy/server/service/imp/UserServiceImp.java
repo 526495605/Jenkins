@@ -1,5 +1,6 @@
 package com.ykyy.server.service.imp;
 
+import com.ykyy.server.bean.CategoryBean;
 import com.ykyy.server.bean.ChildBean;
 import com.ykyy.server.bean.UserBean;
 import com.ykyy.server.dao.UserMapping;
@@ -86,6 +87,37 @@ public class UserServiceImp implements UserService
     public List<ChildBean> getChildById(int user_id)
     {
         return userMapping.getChildById(user_id);
+    }
+
+
+
+    @Override
+    public List<CategoryBean> getUsersCategory(Integer users_id)
+    {
+        return userMapping.getUsersCategory(users_id);
+    }
+
+    @Override
+    public Integer insertUsersCategory(Integer users_id, Integer[] category_id)
+    {
+        int k = 0;
+        for(int i = 0; i<category_id.length; i++)
+        {
+            k += userMapping.insertUsersCategory(users_id, category_id[i]);
+        }
+        return k;
+    }
+
+    @Override
+    public Integer deleteUsersCategoryaAll(Integer users_id)
+    {
+        return userMapping.deleteUsersCategoryaAll(users_id);
+    }
+
+    @Override
+    public Integer deleteUsersCategoryById(Integer id)
+    {
+        return userMapping.deleteUsersCategoryById(id);
     }
 
 
