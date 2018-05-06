@@ -1,17 +1,17 @@
 package com.ykyy.server.web;
 
 import com.alibaba.fastjson.JSONObject;
+import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
 import com.ykyy.server.bean.*;
 import com.ykyy.server.exception.Exceptions;
 import com.ykyy.server.util.MD5Util;
 import com.ykyy.server.util.Sms;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.*;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.List;
+import javax.ws.rs.core.Response;
 
 @RestController
 @RequestMapping(value="/user")
@@ -50,19 +50,26 @@ public class UserController extends BaseController
 
   @RequestMapping(value="/add",method = RequestMethod.POST)
     @ApiOperation(value="添加用户", notes="添加用户")
+    @ApiResponses({
+          @ApiResponse(code = 403, message = "号码输入有误", response = ErrorSet.class),
+          @ApiResponse(code = 404, message = "用户名不存在", response = ErrorSet.class),
+            @ApiResponse(code = 500, message = "手机号已经注册", response = ErrorSet.class)
+  })
     public String addUser(@RequestBody @ApiParam(name = "body",value = "{\"users_password\": \"123\",\"users_phone\": \"18600000000\",\"users_parent\": \"1\"}") UserBean userBean)
     {
         if(!Sms.isMobile(userBean.getUsers_phone()))
         {
-            throw Exceptions.get400Exception("号码输入错误");
+            throw Exceptions.get403Exception("号码输入错误");
         }
+
+
         userBean.setUsers_password(MD5Util.MD5(userBean.getUsers_password()));
 
         Integer result = userService.addUser(userBean);
 
-        if(userBean==null)
+        if(result==null)
         {
-            throw Exceptions.get409Exception("号码已经注册");
+            throw Exceptions.get404Exception("号码已经注册");
         }
         //"{\"status\":true,\"msg\":\"号码可以使用\"}"
         return JSONObject.toJSON(new ResultBean(200, "号码可以使用")).toString();

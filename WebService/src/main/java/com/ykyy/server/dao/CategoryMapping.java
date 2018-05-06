@@ -1,17 +1,15 @@
 package com.ykyy.server.dao;
 
 import com.ykyy.server.bean.CategoryBean;
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
 public interface CategoryMapping
 {
     @Insert("INSERT category (category_name) VALUE (#{category_name})")
-    Integer addGateory(CategoryBean categoryBean);
+    @Options(useGeneratedKeys = true, keyProperty = "category_id")
+    Integer addGateory( CategoryBean categoryBean);
 
     @Delete("UPDATE category SET category_status=0 WHERE category_status=1 and category_id = #{0}")
     Integer deleteGeteory(Integer category_id);

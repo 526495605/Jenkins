@@ -24,6 +24,8 @@ public class ChildBean
     private String child_mother_idcard;
     private String child_father_idcard;
 
+    //private CategoryBean categoryBean;
+
     public String getChild_mother_idcard()
     {
         return child_mother_idcard;

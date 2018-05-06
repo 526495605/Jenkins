@@ -15,6 +15,29 @@ public class PurchaseBean
     private Integer product_sharemoney;
     private Integer purchase_status;
 
+    private ChildBean childBean;
+    private ProductBean productBean;
+
+    public ChildBean getChildBean()
+    {
+        return childBean;
+    }
+
+    public void setChildBean(ChildBean childBean)
+    {
+        this.childBean = childBean;
+    }
+
+    public ProductBean getProductBean()
+    {
+        return productBean;
+    }
+
+    public void setProductBean(ProductBean productBean)
+    {
+        this.productBean = productBean;
+    }
+
     public Integer getPurchase_id()
     {
         return purchase_id;

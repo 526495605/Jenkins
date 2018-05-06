@@ -5,6 +5,7 @@ import com.ykyy.server.bean.ChildBean;
 import com.ykyy.server.bean.UserBean;
 import com.ykyy.server.provider.UserProvider;
 import org.apache.ibatis.annotations.*;
+import org.apache.ibatis.mapping.FetchType;
 
 import java.util.List;
 
@@ -15,6 +16,7 @@ public interface UserMapping
     Integer login(String phone, String password);
 
     @Select("SELECT users_id, users_name, users_phone, users_image, users_wx, users_point FROM users  WHERE users_id = #{0} and users_status=1")
+    @Result(column="users_id",property="list", many=@Many(select = "com.ykyy.server.dao.UserMapping.getChildById",fetchType=FetchType.LAZY))
     UserBean getUserById(int users_id);
 
     @Select("SELECT users_name, users_id, users_phone, users_image, users_wx, users_point FROM users  WHERE users_phone = #{0} and users_status=1")

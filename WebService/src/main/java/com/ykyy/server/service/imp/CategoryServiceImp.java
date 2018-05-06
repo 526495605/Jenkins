@@ -25,6 +25,7 @@ public class CategoryServiceImp implements CategoryService
     public Integer addGateory(CategoryBean categoryBean)
     {
         Integer result = categoryMapping.addGateory(categoryBean);
+        System.out.println(categoryBean.getCategory_id()+" -----------------------------------------------------------------------");
         return result;
     }
 

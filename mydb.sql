@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50540
 File Encoding         : 65001
 
-Date: 2018-05-02 22:35:48
+Date: 2018-05-06 23:51:23
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -24,7 +24,7 @@ CREATE TABLE `category` (
   `category_name` varchar(20) DEFAULT NULL,
   `category_status` int(11) DEFAULT '1',
   PRIMARY KEY (`category_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of category
@@ -34,6 +34,7 @@ INSERT INTO `category` VALUES ('6', '体育', '1');
 INSERT INTO `category` VALUES ('7', '体育', '1');
 INSERT INTO `category` VALUES ('8', '生物', '1');
 INSERT INTO `category` VALUES ('9', '数学', '1');
+INSERT INTO `category` VALUES ('11', '数学', '1');
 
 -- ----------------------------
 -- Table structure for child
@@ -134,9 +135,9 @@ CREATE TABLE `product_category` (
   PRIMARY KEY (`product_category_id`),
   KEY `product_id` (`product_id`),
   KEY `category_id` (`category_id`),
-  CONSTRAINT `product_category_ibfk_2` FOREIGN KEY (`category_id`) REFERENCES `category` (`category_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `product_category_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `product` (`product_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+  CONSTRAINT `product_category_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `product` (`product_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `product_category_ibfk_2` FOREIGN KEY (`category_id`) REFERENCES `category` (`category_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of product_category
@@ -148,8 +149,8 @@ CREATE TABLE `product_category` (
 DROP TABLE IF EXISTS `purchase`;
 CREATE TABLE `purchase` (
   `purchase_id` int(11) NOT NULL AUTO_INCREMENT,
-  `users_id` int(11) DEFAULT NULL,
   `child_id` int(11) DEFAULT NULL,
+  `users_id` int(11) DEFAULT NULL,
   `product_id` int(11) DEFAULT NULL,
   `purchase_time` bigint(20) DEFAULT NULL,
   `users_comment` varchar(255) DEFAULT NULL,
@@ -162,13 +163,16 @@ CREATE TABLE `purchase` (
   PRIMARY KEY (`purchase_id`),
   KEY `users_id` (`users_id`,`child_id`),
   KEY `product_id` (`product_id`),
-  CONSTRAINT `purchase_ibfk_1` FOREIGN KEY (`users_id`, `child_id`) REFERENCES `child` (`child_id`, `users_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  KEY `child_id` (`child_id`,`users_id`),
+  CONSTRAINT `purchase_ibfk_3` FOREIGN KEY (`child_id`, `users_id`) REFERENCES `child` (`child_id`, `users_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `purchase_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `product` (`product_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of purchase
 -- ----------------------------
+INSERT INTO `purchase` VALUES ('3', '3', '1', '1', null, '12412', null, null, null, null, null, '1');
+INSERT INTO `purchase` VALUES ('4', '4', '1', '2', null, '5465', null, null, null, null, null, '1');
 
 -- ----------------------------
 -- Table structure for users
@@ -187,13 +191,15 @@ CREATE TABLE `users` (
   `users_status` int(11) NOT NULL DEFAULT '1',
   PRIMARY KEY (`users_id`),
   UNIQUE KEY `users_phone` (`users_phone`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of users
 -- ----------------------------
-INSERT INTO `users` VALUES ('1', 'owen', '18918501675', '1234', '1', '2', '20180402221041', '0', '1', '1');
-INSERT INTO `users` VALUES ('2', null, '18600000001', '202CB962AC59075B964B07152D234B70', null, null, '1525059488235', '0', '0', '0');
+INSERT INTO `users` VALUES ('1', 'owen', '189797979', '123', '1', '2', '20180402221041', '0', '1', '1');
+INSERT INTO `users` VALUES ('8', null, '18635923309', '202CB962AC59075B964B07152D234B70', null, null, '1525614599484', '0', '0', '1');
+INSERT INTO `users` VALUES ('9', null, '18600000000', '202CB962AC59075B964B07152D234B70', null, null, '1525615219869', '0', '1', '1');
+INSERT INTO `users` VALUES ('13', null, '15620560515', 'CEB2725A1030CADED961CF2295E0F395', null, null, '1525620320115', '0', '0', '1');
 
 -- ----------------------------
 -- Table structure for users_category
@@ -209,7 +215,7 @@ CREATE TABLE `users_category` (
   KEY `category_id` (`category_id`),
   CONSTRAINT `users_category_ibfk_1` FOREIGN KEY (`users_id`) REFERENCES `users` (`users_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `users_category_ibfk_2` FOREIGN KEY (`category_id`) REFERENCES `category` (`category_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of users_category

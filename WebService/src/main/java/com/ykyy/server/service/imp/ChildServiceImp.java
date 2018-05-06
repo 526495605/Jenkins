@@ -47,7 +47,7 @@ public class ChildServiceImp implements ChildService
     @Override
     public ChildBean getChildById(Integer users_id, Integer child_id)
     {
-        return childMapping.getChildById(users_id, child_id);
+        return childMapping.getChildById(child_id);
     }
 
     @Override

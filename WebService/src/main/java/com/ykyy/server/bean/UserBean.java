@@ -1,6 +1,8 @@
 package com.ykyy.server.bean;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UserBean implements Serializable
 {
@@ -16,6 +18,8 @@ public class UserBean implements Serializable
     private Integer users_point;
     private Integer users_parent;
     private Integer users_status;
+    private List<ChildBean> list = new ArrayList<ChildBean>();
+
 
     public static long getSerialVersionUID()
     {
@@ -121,5 +125,15 @@ public class UserBean implements Serializable
     public void setUsers_status(Integer users_status)
     {
         this.users_status = users_status;
+    }
+
+    public List<ChildBean> getList()
+    {
+        return list;
+    }
+
+    public void setList(List<ChildBean> list)
+    {
+        this.list = list;
     }
 }
