@@ -35,7 +35,7 @@ public class BaseController
     public Token saveToken(int users_id)
     {
         Token token = createToken();
-        redisService.set(token.getAccessKey(), expire, users_id);
+ //       redisService.set(token.getAccessKey(), expire, users_id);
         return token;
     }
 

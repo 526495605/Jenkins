@@ -1,19 +1,23 @@
 package com.ykyy.server.service.imp;
 
+import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
 import com.ykyy.server.bean.CategoryBean;
 import com.ykyy.server.bean.ChildBean;
 import com.ykyy.server.bean.UserBean;
 import com.ykyy.server.dao.UserMapping;
+import com.ykyy.server.exception.Exceptions;
 import com.ykyy.server.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 
 @CacheConfig(cacheNames = "Users")
@@ -28,9 +32,12 @@ public class UserServiceImp implements UserService
     @Override
     public UserBean login(String phone, String password)
     {
-
-        int id = userMapping.login(phone, password);
-        return userMapping.getUserById(id);
+        Integer result = userMapping.login(phone,password);
+        if(result == null || result == 0)
+        {
+            throw Exceptions.get400Exception("用户不存在");
+        }
+        return userMapping.getUserByPhone(phone);
     }
 
     @Override
@@ -48,7 +55,28 @@ public class UserServiceImp implements UserService
     @Override
     public Integer addUser(UserBean userBean)
     {
-        int result = userMapping.addUser(userBean);
+        Integer result = null;
+        if(userBean.getUsers_parent()!=null)
+        {
+            int parent = userBean.getUsers_parent();
+            UserBean user = getUserById(parent);
+            if(user == null)
+            {
+                throw Exceptions.get400Exception("分享码错误");
+            }
+        }
+        try
+        {
+            result = userMapping.addUser(userBean);
+        }
+        catch (DataAccessException e)
+        {
+            final Throwable cause = e.getCause();
+            if( cause instanceof MySQLIntegrityConstraintViolationException)
+            {
+               throw Exceptions.get409Exception("手机号已存在");
+            }
+        }
         return result;
     }
 
@@ -62,7 +90,20 @@ public class UserServiceImp implements UserService
     @Override
     public Integer changePass(int users_id, String oldpass, String newpass)
     {
-        return userMapping.changePass(users_id, oldpass, newpass);
+        Integer result = null;
+        try
+        {
+            result = userMapping.changePass(users_id, oldpass, newpass);
+        }
+        catch (DataAccessException e)
+        {
+            final Throwable cause = e.getCause();
+            if( cause instanceof MySQLIntegrityConstraintViolationException)
+            {
+                throw Exceptions.get400Exception("输入原始密码错误");
+            }
+        }
+        return result;
     }
 
     @Override
@@ -100,10 +141,21 @@ public class UserServiceImp implements UserService
     @Override
     public Integer insertUsersCategory(Integer users_id, Integer[] category_id)
     {
-        int k = 0;
-        for(int i = 0; i<category_id.length; i++)
+        Integer k = 0;
+        try
         {
-            k += userMapping.insertUsersCategory(users_id, category_id[i]);
+            for(int i = 0; i<category_id.length; i++)
+            {
+                k += userMapping.insertUsersCategory(users_id, category_id[i]);
+            }
+        }
+        catch (DataAccessException e)
+        {
+            Throwable throwable = e.getCause();
+            if(throwable instanceof MySQLIntegrityConstraintViolationException)
+            {
+                throw Exceptions.get409Exception("标签id有误");
+            }
         }
         return k;
     }

@@ -6,6 +6,7 @@ import com.ykyy.server.bean.UserBean;
 import com.ykyy.server.provider.UserProvider;
 import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.mapping.FetchType;
+import org.springframework.dao.DataAccessException;
 
 import java.util.List;
 
@@ -13,7 +14,7 @@ public interface UserMapping
 {
 
     @Select("SELECT users_id FROM users WHERE users_phone = #{0} and users_password = #{1} and users_status=1")
-    Integer login(String phone, String password);
+    Integer login(String phone, String password) throws DataAccessException;
 
     @Select("SELECT users_id, users_name, users_phone, users_image, users_wx, users_point FROM users  WHERE users_id = #{0} and users_status=1")
     @Result(column="users_id",property="list", many=@Many(select = "com.ykyy.server.dao.UserMapping.getChildById",fetchType=FetchType.LAZY))
@@ -29,13 +30,13 @@ public interface UserMapping
     Integer updatePhone(int users_id, String phone);
 
     @Update("UPDATE users SET users_password=#{2} WHERE users_id=#{0} and users_password=#{1} and users_status=1")
-    Integer changePass(int users_id, String oldpass, String newpass);
+    Integer changePass(int users_id, String oldpass, String newpass) throws DataAccessException;
 
     @Update("UPDATE users SET users_point=#{1} WHERE users_id=#{0} and users_status=1")
     Integer changePoint(int users_id, int newPoint);
 
     @InsertProvider(type = UserProvider.class,method = "addUser")
-    Integer addUser(UserBean userBean);
+    Integer addUser(UserBean userBean) throws DataAccessException;
 
     @Delete("UPDATE users SET users_status=0, users_phone = #{1}, users_parent=0 WHERE users_id=#{0} and users_status=1")
     Integer deleteUser(int users_id, String phone);
@@ -50,7 +51,7 @@ public interface UserMapping
     List<CategoryBean> getUsersCategory(Integer users_id);
 
     @Insert("INSERT users_category (users_id, category_id) VALUE (#{0}, #{1})")
-    Integer insertUsersCategory(Integer users_id, Integer category_id);
+    Integer insertUsersCategory(Integer users_id, Integer category_id) throws DataAccessException;
 
     @Delete("Delete FROM users_category WHERE users_id=#{0}")
     Integer deleteUsersCategoryaAll(Integer users_id);

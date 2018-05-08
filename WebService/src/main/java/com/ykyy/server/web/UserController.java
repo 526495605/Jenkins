@@ -1,17 +1,13 @@
 package com.ykyy.server.web;
 
 import com.alibaba.fastjson.JSONObject;
-import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
 import com.ykyy.server.bean.*;
 import com.ykyy.server.exception.Exceptions;
 import com.ykyy.server.util.MD5Util;
 import com.ykyy.server.util.Sms;
 import io.swagger.annotations.*;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Date;
 import java.util.List;
-import javax.ws.rs.core.Response;
 
 @RestController
 @RequestMapping(value="/user")
@@ -22,15 +18,19 @@ public class UserController extends BaseController
     @PostMapping(value = "/login")
     @ApiOperation(value="登录", notes="登录")
     public String login(
-            @RequestBody @ApiParam(name = "body",defaultValue = "{\"phone\":\"189797979\",\"password\":\"123\"}", value = "{\"phone\":\"189797979\",\"password\":\"123\"}") String body)
+            @RequestBody @ApiParam(name = "body",defaultValue = "{\"users_phone\":\"189797979\",\"users_password\":\"123\"}", value = "{\"phone\":\"189797979\",\"password\":\"123\"}") String body)
     {
         JSONObject jsonObject = JSONObject.parseObject(body);
-        String phone = jsonObject.getString("phone");
-        String password = jsonObject.getString("password");
+        String phone = jsonObject.getString("users_phone");
+        String password = jsonObject.getString("users_password");
 
         if("".equals(phone) || "".equals(password))
         {
-            throw Exceptions.get404Exception("用户名不能为空");
+            throw Exceptions.get400Exception("用户名不能为空");
+        }
+        if(!Sms.isMobile(phone))
+        {
+            throw Exceptions.get403Exception("号码输入错误");
         }
         System.out.println(phone + " + "+ password);
         UserBean user = userService.login(phone, password);
@@ -48,13 +48,8 @@ public class UserController extends BaseController
 
 
 
-  @RequestMapping(value="/add",method = RequestMethod.POST)
+    @RequestMapping(value="/add",method = RequestMethod.POST)
     @ApiOperation(value="添加用户", notes="添加用户")
-    @ApiResponses({
-          @ApiResponse(code = 403, message = "号码输入有误", response = ErrorSet.class),
-          @ApiResponse(code = 404, message = "用户名不存在", response = ErrorSet.class),
-            @ApiResponse(code = 500, message = "手机号已经注册", response = ErrorSet.class)
-  })
     public String addUser(@RequestBody @ApiParam(name = "body",value = "{\"users_password\": \"123\",\"users_phone\": \"18600000000\",\"users_parent\": \"1\"}") UserBean userBean)
     {
         if(!Sms.isMobile(userBean.getUsers_phone()))
@@ -67,10 +62,6 @@ public class UserController extends BaseController
 
         Integer result = userService.addUser(userBean);
 
-        if(result==null)
-        {
-            throw Exceptions.get404Exception("号码已经注册");
-        }
         //"{\"status\":true,\"msg\":\"号码可以使用\"}"
         return JSONObject.toJSON(new ResultBean(200, "号码可以使用")).toString();
 
@@ -84,7 +75,9 @@ public class UserController extends BaseController
         UserBean user =null;
         user = userService.getUserById(id);
         if(user==null)
-            throw Exceptions.get404Exception("查询失败");
+        {
+            throw Exceptions.get404Exception("用户id不存在");
+        }
 
         return JSONObject.toJSON(user).toString();
     }
@@ -95,8 +88,14 @@ public class UserController extends BaseController
     {
         UserBean user =null;
         user = userService.getUserByPhone(phone);
+        if(!Sms.isMobile(phone))
+        {
+            throw Exceptions.get403Exception("号码输入错误");
+        }
         if(user==null)
-            throw Exceptions.get404Exception("查询失败");
+        {
+            throw Exceptions.get404Exception("手机号错误，查询失败");
+        }
 
         return JSONObject.toJSON(user).toString();
     }
@@ -105,7 +104,11 @@ public class UserController extends BaseController
     @RequestMapping(value="/deleteuser/{id}/{phone}", method = RequestMethod.GET)
     public String deleteUser(@PathVariable(value = "id") int id, @PathVariable(value = "phone") String phone)
     {
-        String timemd5 = String.valueOf(new Date().getTime());
+        if(!Sms.isMobile(phone))
+        {
+            throw Exceptions.get403Exception("号码输入错误");
+        }
+        String timemd5 = String.valueOf(System.currentTimeMillis());
         Integer result = userService.deleteUser(id, phone+"+"+timemd5);
         if(result == null || result == 0)
         {
@@ -137,9 +140,11 @@ public class UserController extends BaseController
         String oldpass = jsonObject.getString("oldpass");
         String newpass = jsonObject.getString("newpass");
 
-        Integer result = userService.changePass(user_id, oldpass, newpass);
+        Integer result = userService.changePass(user_id, oldpass, MD5Util.MD5(newpass));
         if(result==null || result==0)
+        {
             throw Exceptions.get409Exception("修改密码失败");
+        }
 
         return JSONObject.toJSON(new ResultBean(200, "修改密码成功")).toString();
     }
@@ -162,7 +167,7 @@ public class UserController extends BaseController
         List<CategoryBean> result = userService.getUsersCategory(users_id);
         if(result==null)
         {
-            throw Exceptions.get404Exception("查询标签失败");
+            throw Exceptions.get404Exception("用户id不存在");
         }
         return JSONObject.toJSON(result).toString();
     }
@@ -177,10 +182,6 @@ public class UserController extends BaseController
             throw Exceptions.get403Exception("输入错误");
         }
         Integer result = userService.insertUsersCategory(users_id, category_id);
-        if(result==null)
-        {
-            throw Exceptions.get404Exception("添加标签失败");
-        }
         return JSONObject.toJSON(new ResultBean(200, "添加用户标签成功")).toString();
     }
 
@@ -201,7 +202,7 @@ public class UserController extends BaseController
     public String deleteUsersCategoryById(@PathVariable(value = "id") Integer id)
     {
         Integer result = userService.deleteUsersCategoryById(id);
-        if(result==null || result ==0)
+        if(result==null)
         {
             throw Exceptions.get404Exception("删除标签失败");
         }

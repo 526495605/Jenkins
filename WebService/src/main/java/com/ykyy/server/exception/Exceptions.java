@@ -11,6 +11,7 @@ public class Exceptions {
     public static class ApiException extends RuntimeException{
 
         private int statsCode;
+        private String message;
 
         public ApiException(){
             super("服务器内部错误");
@@ -20,6 +21,7 @@ public class Exceptions {
         public ApiException(int statusCode, String message) {
             super(message);
             this.statsCode = statusCode;
+            this.message = message;
         }
 
         public ApiException(Response.Status status, String message) {
@@ -31,6 +33,11 @@ public class Exceptions {
             return statsCode;
         }
 
+        @Override
+        public String getMessage()
+        {
+            return message;
+        }
     }
 
 
