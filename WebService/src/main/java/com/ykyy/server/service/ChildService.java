@@ -10,7 +10,7 @@ public interface ChildService
 
     ChildBean updateChild(ChildBean childBean);
 
-    Integer addChild(ChildBean childBean);
+    String addChild(ChildBean childBean);
 
     Integer deletChild(Integer users_id, Integer child_id);
 

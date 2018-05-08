@@ -5,6 +5,8 @@ import com.ykyy.server.bean.CategoryBean;
 import com.ykyy.server.bean.ChildBean;
 import com.ykyy.server.bean.ResultBean;
 import com.ykyy.server.exception.Exceptions;
+import com.ykyy.server.util.IDCardUtil;
+import com.ykyy.server.util.Sms;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -28,12 +30,35 @@ public class ChildController extends BaseController
     @ApiOperation(value="添加儿童", notes="添加儿童")
     public String add(@RequestBody  @ApiParam(name = "儿童",value = "{\"child_age\": \"30\",\"child_father_idcard\": \"140108199111271611\",\"child_father_name\": \"owen\", \"child_father_tel\": \"18636920124\", \"child_grade\": \"9854\", \"child_health\": \"abc\", \"child_healthinfo\": \"adb\", \"child_height\": \"176\", \"child_idcard\": \"shenfenz\", \"child_idcardnum\": \"140108199111271611\", \"child_mother_idcard\": \"140108199111271611\", \"child_mother_name\": \"owen\", \"child_mother_tel\": \"18636920124\", \"child_name\": \"string\", \"child_nation\": \"string\", \"child_sex\": \"男\",\"child_tel\": \"18636920124\",  \"users_id\": 1,\"child_school\": \"123456\"}") ChildBean childBean)
     {
-        Integer result = childService.addChild(childBean);
-        if(result==null || result ==0)
+        if(childBean.getUsers_id()==null)
         {
-          throw Exceptions.get403Exception("添加失败");
+            throw Exceptions.get404Exception("请输入userid");
         }
-        return JSONObject.toJSON(new ResultBean(200, "添加儿童成功")).toString();
+        if(childBean.getChild_tel()==null || Sms.isMobile(childBean.getChild_tel()))
+        {
+            throw Exceptions.get400Exception("儿童手机输入错误");
+        }
+        if(childBean.getChild_mother_tel()==null || Sms.isMobile(childBean.getChild_mother_tel()))
+        {
+            throw Exceptions.get400Exception("监护二人手机输入错误");
+        }
+        if(childBean.getChild_father_tel()==null || Sms.isMobile(childBean.getChild_father_tel()))
+        {
+            throw Exceptions.get400Exception("监护人一手机输入错误");
+        }
+        if(childBean.getChild_father_idcard() == null || IDCardUtil.isIDCard(childBean.getChild_father_idcard()))
+        {
+            throw Exceptions.get400Exception("监护人一IDcard输入错误");
+        }
+        if(childBean.getChild_mother_idcard() == null || IDCardUtil.isIDCard(childBean.getChild_mother_idcard()))
+        {
+            throw Exceptions.get400Exception("监护人二IDcard输入错误");
+        }
+        if(childBean.getChild_idcardnum() == null || IDCardUtil.isIDCard(childBean.getChild_idcardnum()))
+        {
+            throw Exceptions.get400Exception("监护人一IDcard输入错误");
+        }
+        return childService.addChild(childBean);
     }
 
     @GetMapping("/getchildbyid/{users_id}/{child_id}")
@@ -41,13 +66,7 @@ public class ChildController extends BaseController
     public String getChildById(@PathVariable(value = "users_id")  int users_id,
                                @PathVariable(value = "child_id")  int child_id)
     {
-        System.out.println(users_id+"  ----  "+child_id);
         ChildBean childBean = childService.getChildById(users_id, child_id);
-       // ChildBean childBean=null;
-        if(childBean==null)
-        {
-          throw Exceptions.get404Exception("id有误，查询失败");
-        }
         return JSONObject.toJSON(childBean).toString();
     }
 
@@ -57,7 +76,7 @@ public class ChildController extends BaseController
                             @PathVariable(value = "child_id") Integer child_id)
    {
      Integer result = childService.deletChild(users_id, child_id);
-     if(result==null || result==0)
+     if(result==null || result== 0 )
      {
        throw Exceptions.get404Exception("id有误，删除失败");
      }
@@ -68,6 +87,34 @@ public class ChildController extends BaseController
     @ApiOperation(value="修改儿童", notes="修改儿童")
     public String updateChild(@RequestBody ChildBean childBean)
     {
+        if(childBean.getUsers_id()==null)
+        {
+            throw Exceptions.get404Exception("请输入userid");
+        }
+        if(childBean.getChild_tel()==null || Sms.isMobile(childBean.getChild_tel()))
+        {
+            throw Exceptions.get400Exception("儿童手机输入错误");
+        }
+        if(childBean.getChild_mother_tel()==null || Sms.isMobile(childBean.getChild_mother_tel()))
+        {
+            throw Exceptions.get400Exception("监护二人手机输入错误");
+        }
+        if(childBean.getChild_father_tel()==null || Sms.isMobile(childBean.getChild_father_tel()))
+        {
+            throw Exceptions.get400Exception("监护人一手机输入错误");
+        }
+        if(childBean.getChild_father_idcard() == null || IDCardUtil.isIDCard(childBean.getChild_father_idcard()))
+        {
+            throw Exceptions.get400Exception("监护人一IDcard输入错误");
+        }
+        if(childBean.getChild_mother_idcard() == null || IDCardUtil.isIDCard(childBean.getChild_mother_idcard()))
+        {
+            throw Exceptions.get400Exception("监护人二IDcard输入错误");
+        }
+        if(childBean.getChild_idcardnum() == null || IDCardUtil.isIDCard(childBean.getChild_idcardnum()))
+        {
+            throw Exceptions.get400Exception("监护人一IDcard输入错误");
+        }
       ChildBean bean = childService.updateChild(childBean);
       return JSONObject.toJSON(bean).toString();
     }
@@ -84,6 +131,9 @@ public class ChildController extends BaseController
         return JSONObject.toJSON(result).toString();
     }
 
+
+    //标签
+
     @PostMapping("/insertchildcategory/{child_id}")
     @ApiOperation(value = "添加儿童标签", notes = "添加儿童标签")
     public String insertChildCategory(@PathVariable(value = "child_id") Integer child_id, @RequestBody @ApiParam(name = "数组", value = "[ \"7\", \"8\", \"9\" ]") String body)
@@ -91,7 +141,7 @@ public class ChildController extends BaseController
         Integer[] category_id = JSONObject.parseObject(body, Integer[].class);
         if(category_id==null)
         {
-            throw Exceptions.get403Exception("输入错误");
+            throw Exceptions.get403Exception("输入JSON错误");
         }
         Integer result = childService.insertChildCategory(child_id, category_id);
         if(result==null)

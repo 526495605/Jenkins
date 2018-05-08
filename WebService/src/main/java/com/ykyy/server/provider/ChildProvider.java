@@ -83,7 +83,6 @@ public class ChildProvider
                 {
                     SET("child_tel=#{child_tel}");
                 }
-                System.out.println(childBean.getUsers_id() + "+++" + childBean.getChild_id());
                 if((null != childBean.getUsers_id()) && (null != childBean.getChild_id()))
                 {
                     WHERE("users_id=#{users_id} and child_id=#{child_id} and child_status=1");

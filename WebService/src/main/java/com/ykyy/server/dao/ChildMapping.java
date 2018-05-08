@@ -4,6 +4,7 @@ import com.ykyy.server.bean.CategoryBean;
 import com.ykyy.server.bean.ChildBean;
 import com.ykyy.server.provider.ChildProvider;
 import org.apache.ibatis.annotations.*;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
 import javax.ws.rs.DELETE;
@@ -15,7 +16,8 @@ public interface ChildMapping
     Integer updateChild(ChildBean childBean);
 
     @Insert("INSERT child (users_id, child_name, child_age, child_sex, child_height, child_nation, child_tel, child_grade, child_idcard, child_idcardnum, child_health, child_healthinfo, child_father_name, child_father_tel, child_father_idcard, child_mother_name, child_mother_tel, child_mother_idcard, child_school) VALUE(#{users_id},  #{child_name}, #{child_age}, #{child_sex}, #{child_height}, #{child_nation}, #{child_tel}, #{child_grade}, #{child_idcard}, #{child_idcardnum}, #{child_health}, #{child_healthinfo}, #{child_father_name}, #{child_father_tel}, #{child_father_idcard}, #{child_mother_name}, #{child_mother_tel}, #{child_mother_idcard}, #{child_school})")
-    Integer addChild(ChildBean childBean);
+    @Options(useGeneratedKeys = true,keyProperty = "child_id")
+    Integer addChild(ChildBean childBean) throws DataAccessException;
 
     @Delete("UPDATE child SET child_status=0 WHERE users_id=#{0} and child_id=#{1}")
     Integer deletChild(Integer users_id, Integer child_id);
@@ -30,7 +32,7 @@ public interface ChildMapping
     List<CategoryBean> getChildCategory(Integer child_id);
 
     @Insert("INSERT child_category (child_id, category_id) VALUE (#{0}, #{1})")
-    Integer insertChildCategory(Integer child_id, Integer category_id);
+    Integer insertChildCategory(Integer child_id, Integer category_id) throws DataAccessException;
 
     @Delete("Delete FROM child_category WHERE child_id=#{0}")
     Integer deleteChildCategoryaAll(Integer child_id);

@@ -17,60 +17,6 @@ public class Sms {
 	private static final String sign = "爱智康";
 	public static final String content = "欢迎使用爱智康养老云平台，短信验证码为：";
 
-
-	/*
-	public static boolean sendPost(String mobile, String content) {
-		List<NameValuePair> nvps = new ArrayList<NameValuePair>();
-		nvps.add(new BasicNameValuePair("name", name));
-		nvps.add(new BasicNameValuePair("pwd", pwd));
-		nvps.add(new BasicNameValuePair("type", type));
-		nvps.add(new BasicNameValuePair("mobile", mobile));
-		nvps.add(new BasicNameValuePair("content", content));
-		nvps.add(new BasicNameValuePair("sign",sign));
-
-		return HttpUtil.post(URL, nvps);
-	}
-	
-	public static boolean sendGet(String mobile, String content) {
-		String url = URL;
-		String sms = content;
-		//String sms = String.format(template, content);
-		try {
-			sms = URLEncoder.encode(sms, "UTF-8");
-		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			Logging.error(e.getMessage());
-			e.printStackTrace();
-		}
-		Logging.debug(mobile + " : " + sms);
-		url += "?name=" + name + "&pwd=" + pwd + "&type=" + type + "&sign="+ sign + "&mobile=" + mobile + "&content=" + sms ;
-		System.out.println(url);
-		if (Switch.SENDSMS) {
-			return HttpUtil.get(url);
-		}
-		return true;
-	}
-	
-	public static boolean setMsg(String mobile, String content) {
-		String url = URL;
-		String sms = content;
-		try {
-			sms = URLEncoder.encode(sms, "UTF-8");
-		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			Logging.error(e.getMessage());
-			e.printStackTrace();
-		}
-		
-		Logging.debug(mobile + " : " + sms);
-		url += "?name=" + name + "&pwd=" + pwd + "&type=" + type  + "&sign="+ sign + "&mobile=" + mobile + "&content=" + sms;
-		if (Switch.SENDSMS) {
-			return HttpUtil.get(url);
-		}
-		return true;
-	}
-	*/
-
 	/**
 	 * 手机号验证
 	 *
