@@ -100,5 +100,7 @@ public interface UserService
     Integer deleteUsersCategoryaAll(Integer users_id);
 
     Integer deleteUsersCategoryById(Integer id);
+
+    Integer changeCategoryById(Integer users_id, Integer[] category_ids);
 }
 

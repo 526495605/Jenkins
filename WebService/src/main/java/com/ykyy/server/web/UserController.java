@@ -169,7 +169,8 @@ public class UserController extends BaseController
         {
             throw Exceptions.get404Exception("用户id不存在");
         }
-        return JSONObject.toJSON(result).toString();
+        String json =  JSONObject.toJSON(result).toString();
+        return json;
     }
 
     @PostMapping("/insertuserscategory/{users_id}")
@@ -207,5 +208,18 @@ public class UserController extends BaseController
             throw Exceptions.get404Exception("删除标签失败");
         }
         return JSONObject.toJSON(new ResultBean(200, "删除用户标签成功")).toString();
+    }
+
+    @PostMapping("/changeCategoryById/{id}")
+    @ApiOperation(value = "通过id修改户标签", notes = "通过id修改户标签")
+    public String changeCategoryById(@PathVariable(value = "id")Integer users_id, @RequestBody @ApiParam("数组") Integer[] category_ids)
+    {
+        Integer result = userService.changeCategoryById(users_id, category_ids);
+        if(result == null)
+        {
+            throw Exceptions.get403Exception("usersid，错误");
+        }
+        return JSONObject.toJSON(new ResultBean(200, "修改用户标签成功")).toString();
+
     }
 }

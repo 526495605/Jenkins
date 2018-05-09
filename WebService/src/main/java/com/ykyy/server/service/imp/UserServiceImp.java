@@ -7,6 +7,7 @@ import com.ykyy.server.bean.UserBean;
 import com.ykyy.server.dao.UserMapping;
 import com.ykyy.server.exception.Exceptions;
 import com.ykyy.server.service.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
@@ -22,6 +23,7 @@ import java.util.List;
 
 @CacheConfig(cacheNames = "Users")
 @Service
+@Slf4j
 @Transactional(propagation = Propagation.SUPPORTS,readOnly = false,rollbackFor = Exception.class)
 public class UserServiceImp implements UserService
 {
@@ -97,6 +99,7 @@ public class UserServiceImp implements UserService
         }
         catch (DataAccessException e)
         {
+            log.error(e.getMessage());
             final Throwable cause = e.getCause();
             if( cause instanceof MySQLIntegrityConstraintViolationException)
             {
@@ -135,7 +138,8 @@ public class UserServiceImp implements UserService
     @Override
     public List<CategoryBean> getUsersCategory(Integer users_id)
     {
-        return userMapping.getUsersCategory(users_id);
+        List<CategoryBean> list = userMapping.getUsersCategory(users_id);
+        return list;
     }
 
     @Override
@@ -170,6 +174,14 @@ public class UserServiceImp implements UserService
     public Integer deleteUsersCategoryById(Integer id)
     {
         return userMapping.deleteUsersCategoryById(id);
+    }
+
+    @Override
+    public Integer changeCategoryById(Integer users_id, Integer[] category_ids)
+    {
+        deleteUsersCategoryaAll(users_id);
+        Integer result = insertUsersCategory(users_id, category_ids);
+        return result;
     }
 
 
