@@ -1,14 +1,17 @@
 package com.ykyy.server.provider;
 
+import com.ykyy.server.bean.PurchaseBean;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.jdbc.SQL;
 
 import java.util.Date;
 
+@Slf4j
 public class PurchaseProvider
 {
-    public String addPurchase(Integer users_id, Integer child_id, Integer product_id)
+    public String addPurchase(Integer child_id, Integer product_id,Integer users_id)
     {
-        Long time = new Date().getTime();
+        Long time = System.currentTimeMillis();
         String sql = new SQL()
         {
             {
@@ -19,7 +22,39 @@ public class PurchaseProvider
                 VALUES("purchase_time", String.valueOf(time));
             }
         }.toString();
+        log.info(sql);
+        System.out.println("sql = " + sql);
+        return sql;
+    }
 
+    public String addUserComment(Integer purchase_id, String comment)
+    {
+        Long time = System.currentTimeMillis();
+        String sql = new SQL(){
+            {
+                UPDATE("purchase");
+                SET("users_comment = " + comment);
+                SET("users_comment_time = "+time);
+                WHERE("purchase_id = "+purchase_id);
+                WHERE("purchase_status = 3");
+            }
+        }.toString();
+        log.info(sql);
+        return sql;
+    }
+    public String addChildComment(Integer purchase_id, String comment)
+    {
+        Long time = System.currentTimeMillis();
+        String sql = new SQL(){
+            {
+                UPDATE("purchase");
+                SET("child_comment = " + comment);
+                SET("child_comment_time = "+time);
+                WHERE("purchase_id = "+purchase_id);
+                WHERE("purchase_status = 3");
+            }
+        }.toString();
+        log.info(sql);
         return sql;
     }
 }

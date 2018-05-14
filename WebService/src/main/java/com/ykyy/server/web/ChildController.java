@@ -34,27 +34,27 @@ public class ChildController extends BaseController
         {
             throw Exceptions.get404Exception("请输入userid");
         }
-        if(childBean.getChild_tel()==null || Sms.isMobile(childBean.getChild_tel()))
+        if(childBean.getChild_tel()==null || !Sms.isMobile(childBean.getChild_tel()))
         {
             throw Exceptions.get400Exception("儿童手机输入错误");
         }
-        if(childBean.getChild_mother_tel()==null || Sms.isMobile(childBean.getChild_mother_tel()))
+        if(childBean.getChild_mother_tel()==null ||! Sms.isMobile(childBean.getChild_mother_tel()))
         {
             throw Exceptions.get400Exception("监护二人手机输入错误");
         }
-        if(childBean.getChild_father_tel()==null || Sms.isMobile(childBean.getChild_father_tel()))
+        if(childBean.getChild_father_tel()==null || !Sms.isMobile(childBean.getChild_father_tel()))
         {
             throw Exceptions.get400Exception("监护人一手机输入错误");
         }
-        if(childBean.getChild_father_idcard() == null || IDCardUtil.isIDCard(childBean.getChild_father_idcard()))
+        if(childBean.getChild_father_idcard() == null || !IDCardUtil.isIDCard(childBean.getChild_father_idcard()))
         {
             throw Exceptions.get400Exception("监护人一IDcard输入错误");
         }
-        if(childBean.getChild_mother_idcard() == null || IDCardUtil.isIDCard(childBean.getChild_mother_idcard()))
+        if(childBean.getChild_mother_idcard() == null || !IDCardUtil.isIDCard(childBean.getChild_mother_idcard()))
         {
             throw Exceptions.get400Exception("监护人二IDcard输入错误");
         }
-        if(childBean.getChild_idcardnum() == null || IDCardUtil.isIDCard(childBean.getChild_idcardnum()))
+        if(childBean.getChild_idcardnum() == null || !IDCardUtil.isIDCard(childBean.getChild_idcardnum()))
         {
             throw Exceptions.get400Exception("监护人一IDcard输入错误");
         }
@@ -173,5 +173,17 @@ public class ChildController extends BaseController
             throw Exceptions.get404Exception("删除标签失败");
         }
         return JSONObject.toJSON(new ResultBean(200, "删除儿童标签成功")).toString();
+    }
+
+    @PostMapping("/changChildCategoryById/{child_id}")
+    @ApiOperation(value = "通过id修改儿童标签", notes = "通过id修改儿童标签")
+    public String changChildCategoryById(@PathVariable(value = "child_id") Integer child_id, @RequestBody @ApiParam(name = "数组", value = "[ \"7\", \"8\", \"9\" ]")  Integer[] category_ids)
+    {
+        Integer result = childService.changeChildCategoryById(child_id, category_ids);
+        if(result == null)
+        {
+            throw Exceptions.get404Exception("修改失败");
+        }
+        return JSONObject.toJSON(new ResultBean(200, "修改儿童标签成功")).toString();
     }
 }

@@ -24,6 +24,8 @@ public class BaseController
     @Autowired
     RedisService redisService;
 
+    @Autowired
+    PurchaseService purchaseService;
 
     public Token createToken()
     {

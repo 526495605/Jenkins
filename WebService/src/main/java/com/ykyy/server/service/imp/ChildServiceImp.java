@@ -108,4 +108,14 @@ public class ChildServiceImp implements ChildService
     {
         return childMapping.deleteChildCategoryById(id);
     }
+
+    @Override
+    public Integer changeChildCategoryById(Integer child_id, Integer[] category_ids)
+    {
+        deleteChildCategoryaAll(child_id);
+        Integer result = insertChildCategory(child_id,category_ids);
+        return result;
+    }
+
+
 }

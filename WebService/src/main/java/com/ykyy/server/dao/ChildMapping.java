@@ -4,6 +4,7 @@ import com.ykyy.server.bean.CategoryBean;
 import com.ykyy.server.bean.ChildBean;
 import com.ykyy.server.provider.ChildProvider;
 import org.apache.ibatis.annotations.*;
+import org.apache.ibatis.mapping.FetchType;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +24,12 @@ public interface ChildMapping
     Integer deletChild(Integer users_id, Integer child_id);
 
     @Select("SELECT users_id, child_id, child_name, child_age, child_sex, child_height, child_nation, child_tel, child_grade, child_idcard, child_idcardnum, child_health, child_healthinfo, child_father_name, child_father_tel, child_father_idcard, child_mother_name, child_mother_tel, child_mother_idcard, child_school FROM child WHERE child_id=#{0} and child_status=1")
+    @Results(
+            {
+                @Result(column = "child_id", property = "child_id", id = true),
+                @Result(column = "child_id", property = "categoryBeans", many=@Many(select = "com.ykyy.server.dao.ChildMapping.getChildCategory", fetchType = FetchType.LAZY))
+            }
+    )
     ChildBean getChildById(Integer child_id);
 
 //    @Insert("INSERT child_category (child_id, category_id) VALUE (#{0}, #{1})")

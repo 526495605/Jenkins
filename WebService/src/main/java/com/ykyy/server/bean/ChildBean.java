@@ -1,5 +1,7 @@
 package com.ykyy.server.bean;
 
+import java.util.List;
+
 public class ChildBean
 {
     private Integer child_id;
@@ -23,6 +25,8 @@ public class ChildBean
     private String child_mother_tel;
     private String child_mother_idcard;
     private String child_father_idcard;
+
+    private List<CategoryBean> categoryBeans;
 
     //private CategoryBean categoryBean;
 
@@ -248,5 +252,15 @@ public class ChildBean
     public void setChild_status(Integer child_status)
     {
         this.child_status = child_status;
+    }
+
+    public List<CategoryBean> getCategoryBeans()
+    {
+        return categoryBeans;
+    }
+
+    public void setCategoryBeans(List<CategoryBean> categoryBeans)
+    {
+        this.categoryBeans = categoryBeans;
     }
 }

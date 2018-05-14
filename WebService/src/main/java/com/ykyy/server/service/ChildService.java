@@ -24,5 +24,7 @@ public interface ChildService
 
     Integer deleteChildCategoryById(Integer id);
 
+    Integer changeChildCategoryById(Integer child_id, Integer[] category_ids);
+
 }
 
