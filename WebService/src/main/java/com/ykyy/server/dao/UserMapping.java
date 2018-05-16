@@ -53,7 +53,7 @@ public interface UserMapping
 
     //------------------------------------------------------------------------------------
 
-    @Select("SELECT category.category_id, category_name FROM category, users_category WHERE category.category_id=users_category.category_id and users_id = #{0} and users_status=1")
+    @Select("SELECT category.category_id, category_name FROM category, users_category WHERE category.category_id=users_category.category_id and users_id = #{0}")
     List<CategoryBean> getUsersCategory(Integer users_id);
 
     @Insert("INSERT users_category (users_id, category_id) VALUE (#{0}, #{1})")

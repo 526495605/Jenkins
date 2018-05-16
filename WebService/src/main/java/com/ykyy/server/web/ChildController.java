@@ -85,33 +85,33 @@ public class ChildController extends BaseController
 
     @PostMapping("/updateChild")
     @ApiOperation(value="修改儿童", notes="修改儿童")
-    public String updateChild(@RequestBody ChildBean childBean)
+    public String updateChild(@RequestBody @ApiParam(value = "{\"child_age\": \"30\",\"child_father_idcard\": \"140108199111271611\",\"child_father_name\": \"owen\",\"child_father_tel\": \"18636920124\",\"child_grade\": \"9854\",\"child_health\": \"abc\",\"child_healthinfo\": \"adb\",\"child_height\": \"176\",\"child_idcard\": \"shenfenz\",\"child_idcardnum\": \"140108199111271611\",\"child_mother_idcard\": \"140108199111271611\",\"child_mother_name\": \"owen\",\"child_mother_tel\": \"18636920124\",\"child_name\": \"string\",\"child_nation\": \"string\",\"child_sex\": \"男\",\"child_tel\": \"18636920124\",\"users_id\": 1,\"child_id\": 3,\"child_school\": \"123456 \"}") ChildBean childBean)
     {
         if(childBean.getUsers_id()==null)
         {
             throw Exceptions.get404Exception("请输入userid");
         }
-        if(childBean.getChild_tel()==null || Sms.isMobile(childBean.getChild_tel()))
+        if(childBean.getChild_tel()==null || !Sms.isMobile(childBean.getChild_tel()))
         {
             throw Exceptions.get400Exception("儿童手机输入错误");
         }
-        if(childBean.getChild_mother_tel()==null || Sms.isMobile(childBean.getChild_mother_tel()))
+        if(childBean.getChild_mother_tel()==null || !Sms.isMobile(childBean.getChild_mother_tel()))
         {
             throw Exceptions.get400Exception("监护二人手机输入错误");
         }
-        if(childBean.getChild_father_tel()==null || Sms.isMobile(childBean.getChild_father_tel()))
+        if(childBean.getChild_father_tel()==null || !Sms.isMobile(childBean.getChild_father_tel()))
         {
             throw Exceptions.get400Exception("监护人一手机输入错误");
         }
-        if(childBean.getChild_father_idcard() == null || IDCardUtil.isIDCard(childBean.getChild_father_idcard()))
+        if(childBean.getChild_father_idcard() == null || !IDCardUtil.isIDCard(childBean.getChild_father_idcard()))
         {
             throw Exceptions.get400Exception("监护人一IDcard输入错误");
         }
-        if(childBean.getChild_mother_idcard() == null || IDCardUtil.isIDCard(childBean.getChild_mother_idcard()))
+        if(childBean.getChild_mother_idcard() == null || !IDCardUtil.isIDCard(childBean.getChild_mother_idcard()))
         {
             throw Exceptions.get400Exception("监护人二IDcard输入错误");
         }
-        if(childBean.getChild_idcardnum() == null || IDCardUtil.isIDCard(childBean.getChild_idcardnum()))
+        if(childBean.getChild_idcardnum() == null || !IDCardUtil.isIDCard(childBean.getChild_idcardnum()))
         {
             throw Exceptions.get400Exception("监护人一IDcard输入错误");
         }

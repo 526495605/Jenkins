@@ -69,7 +69,7 @@ public class ChildProvider
                 }
                 if (null != childBean.getChild_school())
                 {
-                    SET("child_school=#{child_school}}");
+                    SET("child_school=#{child_school}");
                 }
                 if (null != childBean.getChild_mother_idcard())
                 {
