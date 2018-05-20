@@ -7,7 +7,9 @@ package com.ykyy.server.bean;
 * */
 
 
-public class Token
+import java.io.Serializable;
+
+public class Token implements Serializable
 {
     //身份识别码，需要每次请求都带上
     private String accessKey;

@@ -1,8 +1,9 @@
 package com.ykyy.server.bean;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class ChildBean
+public class ChildBean implements Serializable
 {
     private Integer child_id;
     private Integer users_id;

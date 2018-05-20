@@ -1,6 +1,8 @@
 package com.ykyy.server.bean;
 
-public class PurchaseBean
+import java.io.Serializable;
+
+public class PurchaseBean implements Serializable
 {
     private Integer purchase_id;
     private Integer users_id;

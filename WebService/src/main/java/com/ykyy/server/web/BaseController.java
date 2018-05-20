@@ -2,13 +2,12 @@ package com.ykyy.server.web;
 
 import com.ykyy.server.bean.Token;
 import com.ykyy.server.service.*;
+import com.ykyy.server.util.ApplicationUtil;
 import com.ykyy.server.util.Util;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class BaseController
 {
-    static final int expire = 3600;
-
     @Autowired
     UserService userService;
 
@@ -37,7 +36,7 @@ public class BaseController
     public Token saveToken(int users_id)
     {
         Token token = createToken();
- //       redisService.set(token.getAccessKey(), expire, users_id);
+        redisService.set(token.getAccessKey(), ApplicationUtil.EXPIRE, users_id);
         return token;
     }
 

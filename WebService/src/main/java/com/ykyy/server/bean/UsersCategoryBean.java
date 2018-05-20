@@ -1,6 +1,8 @@
 package com.ykyy.server.bean;
 
-public class UsersCategoryBean
+import java.io.Serializable;
+
+public class UsersCategoryBean implements Serializable
 {
     private Integer users_category_id;
     private Integer users_id;

@@ -1,6 +1,9 @@
 package com.ykyy.server.bean;
 
-public class ErrorSet {
+import java.io.Serializable;
+
+public class ErrorSet implements Serializable
+{
 
     private String message;
     private int statusCode;

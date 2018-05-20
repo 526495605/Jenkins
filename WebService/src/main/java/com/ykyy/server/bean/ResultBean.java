@@ -1,6 +1,8 @@
 package com.ykyy.server.bean;
 
-public class ResultBean
+import java.io.Serializable;
+
+public class ResultBean implements Serializable
 {
     private int code;
     private String message;

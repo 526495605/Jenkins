@@ -109,4 +109,17 @@ public class Exceptions {
         return new DataConflictedException(message);
     }
 
+    /**
+     * 412 token失效
+     **/
+    public  static class TokenException extends ApiException {
+        public TokenException(String message) {
+            super(412, message);
+        }
+    }
+
+    public static TokenException get412Exception(String message){
+        return new TokenException(message);
+    }
+
 }
