@@ -19,6 +19,10 @@ public class ChildProvider
                 {
                     SET("child_age=#{child_age}");
                 }
+                if (null != childBean.getChild_name())
+                {
+                    SET("child_name=#{child_name}");
+                }
                 if (null != childBean.getChild_father_name())
                 {
                     SET("child_father_name=#{child_father_name}");
@@ -92,7 +96,7 @@ public class ChildProvider
                 }
             }
         }.toString();
-        log.warn("updateChild=  " + sql);
+        log.info("updateChild=  " + sql);
         return sql;
     }
 }

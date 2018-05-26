@@ -27,7 +27,7 @@ public class ChildServiceImp implements ChildService
     public ChildBean updateChild(ChildBean childBean)
     {
         Integer result = childMapping.updateChild(childBean);
-        if(result==null || result==0)
+        if(result==null)
         {
             throw Exceptions.get404Exception("更新失败");
         }

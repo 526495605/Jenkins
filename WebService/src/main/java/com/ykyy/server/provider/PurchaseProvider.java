@@ -23,7 +23,6 @@ public class PurchaseProvider
             }
         }.toString();
         log.info(sql);
-        System.out.println("sql = " + sql);
         return sql;
     }
 

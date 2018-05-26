@@ -18,7 +18,7 @@ public class UserController extends BaseController
     @PostMapping(value = "/login")
     @ApiOperation(value="登录", notes="登录")
     public String login(
-            @RequestBody @ApiParam(name = "body",defaultValue = "{\"users_phone\":\"189797979\",\"users_password\":\"123\"}", value = "{\"phone\":\"189797979\",\"password\":\"123\"}") String body)
+            @RequestBody @ApiParam(name = "body",defaultValue = "{\"users_phone\":\"189797979\",\"users_password\":\"123\"}", value = "{\"users_phone\":\"189797979\",\"users_password\":\"123\"}") String body)
     {
         JSONObject jsonObject = JSONObject.parseObject(body);
         String phone = jsonObject.getString("users_phone");

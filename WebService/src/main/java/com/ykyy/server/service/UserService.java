@@ -3,6 +3,7 @@ package com.ykyy.server.service;
 import com.ykyy.server.bean.CategoryBean;
 import com.ykyy.server.bean.ChildBean;
 import com.ykyy.server.bean.UserBean;
+import org.springframework.cache.annotation.CacheConfig;
 
 import java.util.List;
 

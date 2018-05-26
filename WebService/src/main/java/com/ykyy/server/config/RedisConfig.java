@@ -1,4 +1,4 @@
-package com.ykyy.server.db;
+package com.ykyy.server.config;
 
 import java.io.Serializable;
 import org.springframework.beans.factory.annotation.Value;

@@ -1,32 +1,15 @@
 spring:
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://www.youxue.top:3306/MyDB?useUnicode=true&characterEncoding=utf-8&useSSL=false&useAffectedRows=true
+    url: jdbc:mysql://127.0.0.1:3306/MyDB?useAffectedRows=true&useUnicode=true&characterEncoding=utf-8&useSSL=false
     username: root
     password: 19890419
-    tomcat:
-      max-wait: 10000
-      max-active: 30
-      test-on-borrow: true
-      db-properties:
-          logger: net.jackieathome.db.customized.MySQLLogger
-          gatherPerfMetrics: 'true'
-          profileSQL: 'true'
-          reportMetricsIntervalMillis: '60000'
-          logSlowQueries: 'true'
-          explainSlowQueries: 'true'
+
   redis:
     database: 0
     host: 127.0.0.1
     port: 6379
     password:
-    jedis:
-      pool:
-        max-active: 8
-        max-wait: -1
-        max-idle: 8
-        min-idle: 0
-    timeout: 1000
 
 server:
   debug: true
@@ -38,3 +21,6 @@ server:
 mybatis:
   type-aliases-package: com.ykyy.server.bean
 
+logging:
+  level:
+     com.ykyy.server.dao: debug
