@@ -4,7 +4,15 @@ spring:
     url: jdbc:mysql://127.0.0.1:3306/MyDB?useAffectedRows=true&useUnicode=true&characterEncoding=utf-8&useSSL=false
     username: root
     password: 19890419
-
+    hikari:
+      minimum-idle: 5
+      maximum-pool-size: 50
+      auto-commit: true
+      idle-timeout: 30000
+      pool-name: DateHikariCP
+      max-lifetime: 1800000
+      connection-timeout: 30000
+      connection-test-query: SELECT 1
   redis:
     database: 0
     host: 127.0.0.1
